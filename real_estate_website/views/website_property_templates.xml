@@ -1,0 +1,78 @@
+<odoo>
+    <template id="real_estate_property_list" name="Property List">
+        <t t-call="website.layout">
+            <div class="container mt16 mb16">
+                <h1>Property Listings</h1>
+                <div class="row">
+                    <t t-foreach="properties" t-as="property">
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img t-if="property.image" t-att-src="'data:image/png;base64,%s' % property.image"
+                                     class="card-img-top"/>
+                                <div class="card-body">
+                                    <h5>
+                                        <t t-esc="property.name"/>
+                                    </h5>
+                                    <p>Price: $
+                                        <t t-esc="property.price"/>
+                                    </p>
+                                    <p>
+                                        Location:<t t-esc="property.street"/>,<t t-esc="property.city"/>,
+                                        <t t-esc="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
+                                        <t t-esc="property.zip"/>
+                                    </p>
+                                    <a t-attf-href="/property/{{ property.id }}" class="btn btn-primary">View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="property_detail" name="Property Detail">
+        <t t-call="website.layout">
+            <div class="container mt16 mb16">
+                <a href="/properties">Back to Listings</a>
+                <h1>
+                    <t t-esc="property.name"/>
+                </h1>
+                <img t-if="property.image" t-att-src="'data:image/png;base64,%s' % property.image"
+                     class="img-fluid mb16"/>
+                <p>
+                    <strong>Price:</strong>
+                    $
+                    <t t-esc="property.price"/>
+                </p>
+                <p>
+                    <strong>Location:</strong>
+                    <t t-esc="property.street"/>,<t t-esc="property.city"/>,
+                    <t t-esc="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
+                    <t t-esc="property.zip"/>
+                </p>
+                <p>
+                    <strong>Bedrooms:</strong>
+                    <t t-esc="property.bedrooms"/>
+                </p>
+                <p>
+                    <strong>Bathrooms:</strong>
+                    <t t-esc="property.bathrooms"/>
+                </p>
+                <p>
+                    <strong>Area:</strong>
+                    <t t-esc="property.area"/>
+                    sq ft
+                </p>
+                <p>
+                    <strong>Status:</strong>
+                    <t t-esc="property.status"/>
+                </p>
+                <div>
+                    <t t-raw="property.description"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

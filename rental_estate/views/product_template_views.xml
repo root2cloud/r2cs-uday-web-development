@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_product_template_rental_estate_form" model="ir.ui.view">
+        <field name="name">product.template.rental.estate.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']/group/group[@name='group_general']" position="inside">
+                <field name="property_type"/>
+                <field name="bedrooms"/>
+                <field name="bathrooms"/>
+                <field name="square_feet"/>
+                <field name="rental_price"/>
+                <field name="availability_status"/>
+                <field name="landlord_id"/>
+                <field name="lease_duration"/>
+                <field name="deposit_amount"/>
+            </xpath>
+
+
+            <!--                        <field name="amenities" widget="many2many_tags"/>-->
+
+
+        </field>
+    </record>
+</odoo>

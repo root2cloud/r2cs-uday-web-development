@@ -1,0 +1,11 @@
+<odoo>
+    <template id="homepage_search_form" inherit_id="website.homepage" name="Homepage Search Form">
+        <xpath expr="//div[contains(@class, 'oe_structure')]" position="inside">
+            <form action="/properties/search" method="get" class="form-inline mb-4">
+                <input type="text" name="location" placeholder="Enter city, zip code, or address"
+                       class="form-control mr-2"/>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </xpath>
+    </template>
+</odoo>
