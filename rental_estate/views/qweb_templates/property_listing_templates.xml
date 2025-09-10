@@ -1,0 +1,69 @@
+<odoo>
+    <template id="property_listing_page" name="Rental Estate Listing Page">
+        <t t-call="website.layout">
+            <link rel="stylesheet" href="/rental_estate/static/src/css/property_styles.css"/>
+            <main id="wrap" role="main" class="property-listing-page">
+                <!-- Page Hero Section -->
+                <section id="property-hero" class="hero-section py-5 bg-light text-center">
+                    <div class="container">
+                        <h1 class="display-4">
+                            <t t-if="property_type != 'all'">
+                                <t t-esc="property_type.capitalize()"/>
+                                Properties
+                            </t>
+                            <t t-else="">All Properties</t>
+                        </h1>
+                        <p class="lead">Explore our exclusive collection of rental estate properties.</p>
+                        <!-- Future: Add search or filter controls here -->
+                    </div>
+                </section>
+
+                <!-- Filters & Sorting - Placeholder -->
+                <section id="property-filters" class="container my-4">
+                    <!-- Future dynamic filter controls -->
+                </section>
+
+                <!-- Main Property Listings -->
+                <section id="property-listings" class="container mb-5">
+                    <div class="row">
+                        <t t-foreach="properties" t-as="property">
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card shadow-sm h-100">
+                                    <img t-attf-src="data:image/png;base64,{{property.image_1920}}"
+                                         t-attf-alt="{{property.name}}"
+                                         class="card-img-top"/>
+
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">
+                                            <a t-att-href="'/shop/product/%d' % property.id"
+                                               class="text-decoration-none text-dark" t-esc="property.name"/>
+                                        </h5>
+                                        <p class="card-text text-muted mb-2"
+                                           t-esc="property.location or 'Location N/A'"/>
+                                        <p class="card-text mb-2">
+                                            <strong>Price:</strong>
+                                            <t t-esc="property.rental_price or 'N/A'"/>
+                                        </p>
+                                        <a t-att-href="'/shop/product/%d' % property.id"
+                                           class="btn btn-primary mt-auto">View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+
+                <!-- Footer Newsletter / Call to Action -->
+                <section id="property-cta" class="py-5 bg-secondary text-white text-center">
+                    <div class="container">
+                        <h2>Stay Updated</h2>
+                        <p>Subscribe to our newsletter for the latest property listings.</p>
+                        <!-- Future: Subscription form -->
+                    </div>
+                </section>
+
+            </main>
+        </t>
+    </template>
+</odoo>

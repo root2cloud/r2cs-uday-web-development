@@ -1,0 +1,144 @@
+.property-listing-page {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.property-listing-page .hero-section {
+  background-color: #f8f9fa;
+  color: #212529;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.property-listing-page .hero-section h1.display-4 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.property-listing-page .hero-section .lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+
+.property-listing-page #property-filters {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Property Cards Container */
+.property-listing-page #property-listings .card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.property-listing-page #property-listings .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 0.2);
+}
+
+.property-listing-page #property-listings .card img {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  object-fit: cover;
+  height: 200px;
+  width: 100%;
+}
+
+.property-listing-page #property-listings .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.property-listing-page #property-listings .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+  text-decoration: none;
+}
+
+.property-listing-page #property-listings .card-text {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+.property-listing-page #property-listings .card-body .btn {
+  margin-top: auto;
+  align-self: flex-start;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.property-listing-page #property-listings .card-body .btn:hover {
+  background-color: #0a58ca;
+  color: #fff;
+}
+
+.property-listing-page .badge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  padding: 0.4em 0.65em;
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+
+.property-listing-page .badge.bg-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.property-listing-page .badge.bg-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Footer CTA */
+.property-listing-page #property-cta {
+  background-color: #343a40;
+  color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.property-listing-page #property-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.property-listing-page #property-cta p {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .property-listing-page #property-listings .card img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 575px) {
+  .property-listing-page .hero-section h1.display-4 {
+    font-size: 2rem;
+  }
+  .property-listing-page #property-listings .card img {
+    height: 150px;
+  }
+}

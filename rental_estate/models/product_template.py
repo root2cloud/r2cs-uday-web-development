@@ -4,13 +4,6 @@ from odoo import models, fields
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    property_type = fields.Selection([
-        ('apartment', 'Apartment'),
-        ('house', 'House'),
-        ('condo', 'Condominium'),
-        ('townhouse', 'Townhouse'),
-    ], string="Property Type")
-
     bedrooms = fields.Integer(string="Bedrooms")
     bathrooms = fields.Integer(string="Bathrooms")
     square_feet = fields.Float(string="Square Footage")
@@ -24,3 +17,17 @@ class ProductTemplate(models.Model):
     # amenities = fields.Many2many('rental.amenity', string="Amenities")
     lease_duration = fields.Char(string="Lease Duration")
     deposit_amount = fields.Float(string="Security Deposit")
+    property_type = fields.Selection([
+        ('buy', 'Buy'),
+        ('rent', 'Rent'),
+        ('sale', 'Sale'),
+    ], string="Property Type", required=True, default='rent')
+    location = fields.Char(string="Location")
+    zip_code = fields.Char(string="Zip Code")
+    status = fields.Selection([
+        ('available', 'Available'),
+        ('rented', 'Rented'),
+        ('sold', 'Sold'),
+        ('maintenance', 'Under Maintenance'),
+    ], string="Status", default='available')
+    room_image_ids = fields.One2many('property.room.image', 'product_tmpl_id', string="Room Images")
