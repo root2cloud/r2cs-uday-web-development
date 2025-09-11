@@ -1,0 +1,79 @@
+/* Main image styling */
+.property-detail-page .main-image {
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.property-detail-page .main-image:hover {
+  transform: scale(1.03);
+}
+
+/* Room images in gallery */
+.property-detail-page img.img-thumbnail {
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.property-detail-page img.img-thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+}
+
+/* Tab navigation styling */
+.nav-tabs .nav-link {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #495057;
+  padding: 12px 15px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0d6efd;
+  border-bottom-color: #0d6efd;
+}
+
+/* Alert box in Overview */
+.property-detail-page .alert-info {
+  background-color: #e6f0ff;
+  border-color: #8ab8ff;
+  color: #004085;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Buttons */
+.property-detail-page .btn-danger {
+  background-color: #d6336c;
+  border: none;
+}
+
+.property-detail-page .btn-danger:hover {
+  background-color: #b02a5a;
+}
+
+.property-detail-page button.btn-link {
+  font-size: 0.95rem;
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767.98px) {
+  .property-detail-page .main-image {
+    max-height: 300px;
+  }
+  .property-detail-page .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

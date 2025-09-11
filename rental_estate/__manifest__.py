@@ -8,6 +8,7 @@
         'security/ir.model.access.csv',
         "views/product_template_views.xml",
         'views/qweb_templates/property_listing_templates.xml',
+        'views/qweb_templates/property_detail_templates.xml',
 
     ],
     "installable": True,
