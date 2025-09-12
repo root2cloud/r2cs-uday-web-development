@@ -5,16 +5,18 @@
             <main id="wrap" role="main" class="property-detail-page py-5">
                 <div class="container">
 
-                    <!-- Page-level Tab Navigation -->
+                    <!-- Tabs -->
                     <ul class="nav nav-tabs mb-4" id="propertyTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview"
-                               role="tab" aria-controls="overview" aria-selected="true">Overview
+                               role="tab"
+                               aria-controls="overview" aria-selected="true">Overview
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="neighborhood-tab" data-bs-toggle="tab" href="#neighborhood"
-                               role="tab" aria-controls="neighborhood" aria-selected="false">Neighborhood
+                               role="tab"
+                               aria-controls="neighborhood" aria-selected="false">Neighborhood
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -34,86 +36,85 @@
                         </li>
                     </ul>
 
-                    <!-- Tab Contents -->
+                    <!-- Tab content -->
                     <div class="tab-content" id="propertyTabContent">
+
                         <!-- Overview Tab -->
-                        <div class="tab-pane fade show active" id="overview" role="tabpanel"
-                             aria-labelledby="overview-tab">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <h1 class="mb-3" t-esc="property.name"/>
-                                    <p class="text-muted mb-1">
-                                        <strong>Location:</strong>
-                                        <t t-esc="property.location or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Bedrooms:</strong>
-                                        <t t-esc="property.bedrooms or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Bathrooms:</strong>
-                                        <t t-esc="property.bathrooms or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Square Feet:</strong>
-                                        <t t-esc="property.square_feet or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Price:</strong>
-                                        <t t-esc="property.rental_price or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Availability Status:</strong>
-                                        <t t-esc="property.availability_status or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Lease Duration:</strong>
-                                        <t t-esc="property.lease_duration or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Deposit:</strong>
-                                        <t t-esc="property.deposit_amount or 'N/A'"/>
-                                    </p>
-                                    <p class="mb-1">
-                                        <strong>Status:</strong>
-                                        <t t-esc="property.status or 'N/A'"/>
-                                    </p>
-                                    <hr class="my-4"/>
-                                    <h5>Description:</h5>
-                                    <p t-raw="property.description_sale or 'No description available.'"/>
-                                </div>
-                                <div class="col-lg-4">
+                        <section class="tab-pane fade show active" id="overview" role="tabpanel"
+                                 aria-labelledby="overview-tab" tabindex="0">
+
+                            <div class="gallery-box d-flex align-items-start gap-4 mb-4">
+                                <div class="main-gallery-img flex-shrink-0 w-50 rounded overflow-hidden shadow-sm">
                                     <img t-attf-src="data:image/png;base64,{{property.image_1920}}"
-                                         t-attf-alt="{{property.name}}" class="img-fluid rounded mb-4 main-image"/>
-                                    <h5>Room Images</h5>
+                                         t-attf-alt="{{property.name}}"
+                                         class="main-image rounded img-fluid"/>
+                                </div>
+                                <div class="room-images-thumbs d-flex flex-wrap gap-3 w-50">
                                     <t t-if="room_images">
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <t t-foreach="room_images" t-as="room_image">
-                                                <div style="width: 100px; height: 100px;">
-                                                    <img t-attf-src="data:image/png;base64,{{room_image.image}}"
-                                                         t-attf-alt="{{room_image.name}}"
-                                                         class="img-thumbnail"
-                                                         style="width: 100%; height: 100%; object-fit: cover;"/>
-                                                    <p class="text-center small mt-1" t-esc="room_image.name"/>
-                                                </div>
-                                            </t>
-                                        </div>
-                                    </t>
-                                    <t t-else="">
-                                        <p>No room images available.</p>
+                                        <t t-foreach="room_images" t-as="room_image">
+                                            <img t-attf-src="data:image/png;base64,{{room_image.image}}"
+                                                 t-attf-alt="{{room_image.name}}"
+                                                 class="img-thumbnail"
+                                                 style="width:240px; height:160px; object-fit:cover;"/>
+
+
+                                        </t>
                                     </t>
                                 </div>
                             </div>
-                        </div>
+
+                            <div class="overview-card mx-auto shadow rounded-4 border-0 p-4">
+                                <h1 t-esc="property.name" class="mb-2"/>
+                                <p class="fs-5 mb-2 text-secondary">
+                                    <strong>Location:</strong>
+                                    <t t-esc="property.location or 'N/A'"/>
+                                </p>
+                                <div class="row text-center mb-2 fs-5">
+                                    <div class="col">
+                                        <span class="d-block fw-bold">
+                                            <t t-esc="property.square_feet or 'N/A'"/>
+                                        </span>
+                                        <span class="small text-muted">Sq Ft</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="d-block fw-bold">
+                                            <t t-esc="property.rental_price or 'N/A'"/>
+                                        </span>
+                                        <span class="small text-muted">Price</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="d-block fw-bold">
+                                            <t t-esc="property.availability_status or 'N/A'"/>
+                                        </span>
+                                        <span class="small text-muted">Status</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="d-block fw-bold">
+                                            <t t-esc="property.lease_duration or 'N/A'"/>
+                                        </span>
+                                        <span class="small text-muted">Lease</span>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <h5>About This Home:</h5>
+                                    <p t-raw="property.description_sale or 'No description available.'"/>
+                                </div>
+                            </div>
+
+                        </section>
 
                         <!-- Neighborhood Tab -->
-                        <div class="tab-pane fade" id="neighborhood" role="tabpanel" aria-labelledby="neighborhood-tab">
+                        <section class="tab-pane fade" id="neighborhood" role="tabpanel"
+                                 aria-labelledby="neighborhood-tab"
+                                 tabindex="0">
                             <h4>Neighborhood</h4>
                             <p>Neighborhood information will be displayed here.</p>
-                        </div>
+                        </section>
 
                         <!-- Property Details Tab -->
-                        <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+                        <section class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab"
+                                 tabindex="0">
                             <h4>Property Details</h4>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
@@ -129,10 +130,6 @@
                                     <t t-esc="property.square_feet or 'N/A'"/>
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>Property Type:</strong>
-                                    <t t-esc="property.property_type or 'N/A'"/>
-                                </li>
-                                <li class="list-group-item">
                                     <strong>Deposit Amount:</strong>
                                     <t t-esc="property.deposit_amount or 'N/A'"/>
                                 </li>
@@ -141,16 +138,18 @@
                                     <t t-esc="property.status or 'N/A'"/>
                                 </li>
                             </ul>
-                        </div>
+                        </section>
 
                         <!-- Sale & Tax History Tab -->
-                        <div class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab">
+                        <section class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab"
+                                 tabindex="0">
                             <h4>Sale &amp; Tax History</h4>
                             <p>Sale and tax history details will be displayed here.</p>
-                        </div>
+                        </section>
 
                         <!-- Climate Tab -->
-                        <div class="tab-pane fade" id="climate" role="tabpanel" aria-labelledby="climate-tab">
+                        <section class="tab-pane fade" id="climate" role="tabpanel" aria-labelledby="climate-tab"
+                                 tabindex="0">
                             <h4>Climate Risks</h4>
                             <ul>
                                 <li>Flood Factor: Information here.</li>
@@ -159,7 +158,8 @@
                                 <li>Wind Factor: Information here.</li>
                                 <li>Air Factor: Information here.</li>
                             </ul>
-                        </div>
+                        </section>
+
                     </div>
 
                     <a t-att-href="'/properties'" class="btn btn-secondary mt-4">Back to Listings</a>

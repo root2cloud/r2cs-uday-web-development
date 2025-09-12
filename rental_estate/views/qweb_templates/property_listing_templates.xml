@@ -14,7 +14,34 @@
                             <t t-else="">All Properties</t>
                         </h1>
                         <p class="lead">Explore our exclusive collection of rental estate properties.</p>
-                        <!-- Future: Add search or filter controls here -->
+                        <!-- Search and Filter Form -->
+                        <form method="get"
+                              t-att-action="property_type == 'all' and '/properties' or '/properties/' + property_type"
+                              class="d-flex justify-content-center gap-2 my-4">
+                            <t t-if="property_type == 'all'">
+                                <select name="property_type" class="form-select w-auto">
+                                    <option t-att-selected="property_type == 'all'" value="all">All Properties</option>
+                                    <t t-foreach="valid_types" t-as="ptype">
+                                        <option t-att-selected="property_type == ptype" t-att-value="ptype"
+                                                t-esc="ptype.capitalize()"/>
+                                    </t>
+                                </select>
+                            </t>
+                            <input type="text" name="zip_code" t-att-value="zip_code or ''" placeholder="Enter ZIP Code"
+                                   class="form-control w-50"/>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                        <nav class="mb-3 text-center">
+                            <a href="/properties" t-att-class="{'active': property_type == 'all'}"
+                               class="btn btn-outline-primary mx-1">All
+                            </a>
+                            <t t-foreach="valid_types" t-as="ptype">
+                                <a t-att-href="'/properties/%s' % ptype"
+                                   t-att-class="{'active': property_type == ptype}" class="btn btn-outline-primary mx-1"
+                                   t-esc="ptype.capitalize()"/>
+                            </t>
+                        </nav>
+
                     </div>
                 </section>
 
