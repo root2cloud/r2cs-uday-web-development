@@ -1,0 +1,76 @@
+<odoo>
+    <template id="sell_thank_you" name="Thank You for Submission Enhanced">
+        <t t-call="website.layout">
+            <style>
+                /* Simple fade-in animation */
+                @keyframes entrancePulse {
+                0% { transform: scale(0.9); box-shadow: 0 0 0 rgba(40, 167, 69, 0); }
+                50% { transform: scale(1.06); box-shadow: 0 0 30px rgba(40, 167, 69, 0.7); }
+                70% { transform: scale(1); box-shadow: 0 0 20px rgba(40, 167, 69, 0.4); }
+                100% { transform: scale(1); box-shadow: 0 0 15px rgba(40, 167, 69, 0.3); }
+                }
+                @keyframes pulseHover {
+                0% { transform: scale(1); box-shadow: 0 0 15px rgba(40, 167, 69, 0.3); }
+                50% { transform: scale(1.07); box-shadow: 0 0 30px rgba(40, 167, 69, 0.6); }
+                100% { transform: scale(1); box-shadow: 0 0 15px rgba(40, 167, 69, 0.3); }
+                }
+
+                .thank-you-container {
+                animation: entrancePulse 2s ease forwards; /* runs once on load */
+                max-width: 500px;
+                margin: 4rem auto;
+                padding: 2rem;
+                background: #e6f4ea;
+                border-radius: 15px;
+                box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+                text-align: center;
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+                user-select: none;
+                }
+
+                .thank-you-container:hover {
+                animation: pulseHover 1s ease;
+                }
+
+                .thank-you-icon {
+                font-size: 5rem;
+                color: #28a745;
+                margin-bottom: 1rem;
+                animation: bounceIn 1s;
+                }
+                .thank-you-header {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                color: #2c3e50;
+                font-weight: 700;
+                user-select: none;
+                }
+                .thank-you-message {
+                font-size: 1.25rem;
+                color: #555;
+                margin-bottom: 2rem;
+                }
+                .btn-primary {
+                font-weight: 700;
+                padding: 0.75rem 2rem;
+                font-size: 1.1rem;
+                border-radius: 30px;
+                transition: background-color 0.3s ease, box-shadow 0.3s ease;
+                }
+                .btn-primary:hover {
+                background-color: #218838;
+                box-shadow: 0 8px 20px rgba(33,136,56,0.4);
+                }
+            </style>
+
+            <main role="main" class="thank-you-container">
+                <div class="thank-you-icon">✔️</div>
+                <h1 class="thank-you-header">Thank You!</h1>
+                <p class="thank-you-message">Your property submission has been received.<br/>We will review it and get
+                    back to you shortly.
+                </p>
+                <a href="/properties" class="btn btn-primary">Back to Listings</a>
+            </main>
+        </t>
+    </template>
+</odoo>

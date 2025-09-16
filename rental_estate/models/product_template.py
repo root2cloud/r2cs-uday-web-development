@@ -20,7 +20,7 @@ class ProductTemplate(models.Model):
     property_type = fields.Selection([
         ('buy', 'Buy'),
         ('rent', 'Rent'),
-        ('sale', 'Sale'),
+        ('sell', 'Sell'),
     ], string="Property Type", required=True, default='rent')
     location = fields.Char(string="Location")
     zip_code = fields.Char(string="Zip Code")
