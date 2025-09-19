@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="real_estate_management_property_list_view" model="ir.ui.view">
+        <field name="name">property.property.list.view</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <list string="Property Listings">
+                <field name="name"/>
+                <field name="alias_name"/>
+                <field name="price"/>
+                <field name="city"/>
+                <field name="zip_code"/>
+                <field name="views_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="real_estate_management_property_form_view" model="ir.ui.view">
+        <field name="name">property.property.form.view</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <form string="Property Details">
+                <sheet>
+                    <group>
+                        <!-- Left column fields -->
+                        <group>
+                            <field name="name"/>
+                            <field name="category_id" widget="many2one" options="{'no_create': True}"/>
+                            <field name="alias_name"/>
+                            <field name="price"/>
+                            <field name="marketing_video_url"/>
+                            <field name="property_website_url"/>
+                            <field name="short_description"/>
+                            <field name="detailed_description" nolabel="1" widget="html"/>
+                            <field name="street"/>
+                            <field name="locality"/>
+                            <field name="city" readonly="1"/>
+                            <field name="zip_code"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+
+
+                        </group>
+
+                        <!-- Right column fields -->
+                        <group>
+                                                        <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image'}"/>
+
+                            <field name="image_ids" widget="many2many_binary" options="{'no_create': True}"/>
+                            <field name="amenities"/>
+                            <field name="nearby_landmarks"/>
+                            <field name="contact_name"/>
+                            <field name="contact_phone"/>
+                            <field name="contact_email"/>
+                            <field name="contact_website"/>
+                            <field name="seo_title"/>
+                            <field name="seo_description"/>
+                            <field name="is_published"/>
+                            <field name="views_count"/>
+                            <field name="image_count" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="real_estate_management.action_property_management" model="ir.actions.act_window">
+        <field name="name">Property Listings</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Manage publicity properties in Vishakapatnam here.</p>
+        </field>
+    </record>
+
+</odoo>
