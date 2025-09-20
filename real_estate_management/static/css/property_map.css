@@ -1,0 +1,26 @@
+/* Add a subtle background color to the body */
+body {
+    background-color: #f8f9fa;
+}
+/* Style the main title */
+#wrap h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #343a40;
+}
+/* Style the lead paragraph */
+.lead {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.15rem;
+    color: #6c757d;
+}
+/* Add a slight shadow and rounded corners to the map */
+#propertyMap {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+/* Style the info text below the map */
+#property-info p {
+    font-style: italic;
+    color: #888;
+}

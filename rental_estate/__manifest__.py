@@ -2,6 +2,7 @@
     "name": "Rental Estate",
     "version": "1.0",
     "category": "Real Estate",
+    'license': 'LGPL-3',
     "summary": "Rental estate listings",
     "depends": ["product", "website"],
     "data": [

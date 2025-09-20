@@ -1,6 +1,7 @@
 from odoo import http
 from odoo.http import request
 import json
+from odoo.tools.json import scriptsafe as json_scriptsafe
 
 
 class RealEstateController(http.Controller):
@@ -9,7 +10,11 @@ class RealEstateController(http.Controller):
     def property_map(self, **kwargs):
         # Fetch published properties from database
         Property = request.env['property.property'].sudo()
-        properties = Property.search([('is_published', '=', True)])
+        properties = Property.search([
+            ('is_published', '=', True),
+            ('latitude', '!=', False),
+            ('longitude', '!=', False)
+        ])
 
         # Build data for JavaScript
         property_data = []
@@ -21,7 +26,6 @@ class RealEstateController(http.Controller):
                     'latitude': float(prop.latitude),
                     'longitude': float(prop.longitude),
                     'street': prop.street or '',
-                    'locality': prop.locality or '',
                     'price': float(prop.price) if prop.price else 0,
                     'contact_phone': prop.contact_phone or '',
                     'contact_email': prop.contact_email or '',
@@ -29,5 +33,5 @@ class RealEstateController(http.Controller):
 
         return request.render('real_estate_management.property_map_template', {
             'property_count': len(property_data),
-            'properties_json': json.dumps(property_data) if property_data else '[]',
+            'properties_json': json_scriptsafe.dumps(property_data) if property_data else '[]',
         })

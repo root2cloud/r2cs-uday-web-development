@@ -2,6 +2,8 @@
     'name': 'Real Estate',
     'version': '1.0',
     'category': 'Website',
+    'license': 'LGPL-3',
+
     'summary': 'Manage real estate properties and website',
     'description': 'Custom real estate module with property listings and search on website',
     'author': 'Udaykiran',
