@@ -24,7 +24,7 @@ class Property(models.Model):
     street = fields.Char(string='Street', required=True)
     street2 = fields.Char(string='Street 2')
     city = fields.Char(string='City', required=True, default='Visakhapatnam')
-    zip_code = fields.Char(string='ZIP', required=True)
+    zip_code = fields.Char(string='ZIP')
 
     state_id = fields.Many2one('res.country.state', string='State', readonly=True,
                                default=lambda self: self.env['res.country.state']

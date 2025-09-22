@@ -21,7 +21,7 @@
     'assets': {
         'web.assets_frontend': [
             # 'real_estate_management/static/src/js/property_map.js',
-            'real_estate_management/static/css/property_map.css'
+            # 'real_estate_management/staticatic/css/property_map.css'
         ],
     },
     'installable': True,
