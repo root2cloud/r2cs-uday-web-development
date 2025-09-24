@@ -1,8 +1,12 @@
-from odoo import http
+from odoo import http, fields
 from odoo.http import request
 import json
 from odoo.tools.json import scriptsafe as json_scriptsafe
 import base64
+from odoo.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class RealEstateController(http.Controller):
@@ -81,15 +85,23 @@ class RealEstateController(http.Controller):
     @http.route('/property/<int:property_id>', type='http', auth='public', website=True)
     def property_detail(self, property_id, **kwargs):
         """Individual property detail page"""
-        Property = request.env['property.property'].sudo()
-        prop = Property.browse(property_id)
-
+        prop = request.env['property.property'].sudo().browse(property_id)
         if not prop.exists() or not prop.is_published:
             return request.not_found()
-
-        # Increment view count
-        prop.sudo().write({'views': prop.views + 1})
-
-        return request.render('real_estate_management.property_detail_template', {
+        if not prop.ai_content_generated:
+            try:
+                prop.generate_ai_content()
+            except Exception as e:
+                _logger.error(f"Failed to generate AI content for property {prop.id}: {e}")
+        try:
+            prop.write({'views': prop.views + 1})
+        except Exception as e:
+            _logger.error(f"Failed to update views for property {prop.id}: {e}")
+        return request.render('real_estate_management.property_detail_page', {
             'property': prop,
+            'ai_description': prop.ai_property_description,
+            'ai_investment': prop.ai_investment_benefits,
+            'ai_lifestyle': prop.ai_lifestyle_benefits,
+            'ai_nearby': prop.ai_nearby_facilities,
+            'ai_unique': prop.ai_unique_selling_points,
         })

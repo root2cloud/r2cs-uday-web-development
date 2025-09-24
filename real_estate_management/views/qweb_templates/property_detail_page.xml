@@ -1,0 +1,77 @@
+<odoo>
+    <template id="property_detail_page" name="Property Detail Page">
+        <t t-call="website.layout">
+            <div id="wrap"> <!-- Hero Banner -->
+                <section class="s_website_banner text-center" style="padding: 60px 0; background: #f5f5f5;">
+                    <div class="container">
+                        <h1 t-field="property.name" class="display-4"/>
+                        <p t-field="property.short_description" class="lead mt-3"/>
+                    </div>
+                </section> <!-- Main Content -->
+                <section class="s_property_overview py-5">
+                    <div class="container">
+                        <div class="row"> <!-- Image -->
+                            <div class="col-lg-7 mb-4">
+                                <img t-att-src="'/web/image/property.property/%s/image' % property.id"
+                                     class="img-fluid rounded shadow-sm"/>
+                            </div> <!-- Summary -->
+                            <div class="col-lg-5">
+                                <div class="p-4 bg-white rounded shadow-sm">
+                                    <h2 class="text-success">₹
+                                        <span t-field="property.price"/>
+                                    </h2>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li>
+                                            <strong>Address:</strong>
+                                            <span t-field="property.street"/>,
+                                            <span t-field="property.city"/>
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            <span t-field="property.category_id"/>
+                                        </li>
+                                        <li>
+                                            <strong>Views:</strong>
+                                            <span t-field="property.views"/>
+                                        </li>
+                                    </ul>
+                                    <a href="/contact" class="btn btn-primary btn-block">Enquire Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> <!-- AI-Generated Sections -->
+                <section class="s_property_details py-5 bg-light">
+                    <div class="container">
+                        <div class="content-section mb-5">
+                            <h3>Property Overview</h3>
+                            <div t-field="property.ai_property_description" class="p-3 bg-white rounded shadow-sm"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h4>Investment Benefits</h4>
+                                <div t-field="property.ai_investment_benefits" class="p-3 bg-white rounded shadow-sm"/>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h4>Lifestyle Benefits</h4>
+                                <div t-field="property.ai_lifestyle_benefits" class="p-3 bg-white rounded shadow-sm"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h4>Nearby Facilities</h4>
+                                <div t-field="property.ai_nearby_facilities" class="p-3 bg-white rounded shadow-sm"/>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h4>Why Buy?</h4>
+                                <div t-field="property.ai_unique_selling_points"
+                                     class="p-3 bg-white rounded shadow-sm"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <link rel="stylesheet" href="/real_estate_management/static/src/css/property_detail.css"/>
+        </t>
+    </template>
+</odoo>

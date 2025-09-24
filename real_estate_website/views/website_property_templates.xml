@@ -11,15 +11,15 @@
                                      class="card-img-top"/>
                                 <div class="card-body">
                                     <h5>
-                                        <t t-esc="property.name"/>
+                                        <t t-out="property.name"/>
                                     </h5>
                                     <p>Price: $
-                                        <t t-esc="property.price"/>
+                                        <t t-out="property.price"/>
                                     </p>
                                     <p>
-                                        Location:<t t-esc="property.street"/>,<t t-esc="property.city"/>,
-                                        <t t-esc="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
-                                        <t t-esc="property.zip"/>
+                                        Location:<t t-out="property.street"/>,<t t-esc="property.city"/>,
+                                        <t t-out="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
+                                        <t t-out="property.zip"/>
                                     </p>
                                     <a t-attf-href="/property/{{ property.id }}" class="btn btn-primary">View Details
                                     </a>

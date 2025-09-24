@@ -1,0 +1,6 @@
+.property-detail { margin: 40px auto; max-width: 800px; }
+.property-detail .main-img { width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.property-detail h1 { color: #2c3e50; }
+.property-detail h3 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
+.property-detail .btn-primary { background: #3498db; border: none; padding: 10px 20px; margin-top: 20px; }
+.property-detail div[role="presentation"] { background:#ecf0f1; padding:20px; border-radius:5px; }

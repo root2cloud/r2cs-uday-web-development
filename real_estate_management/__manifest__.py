@@ -16,6 +16,7 @@
 
     # Qweb Templates
     'views/qweb_templates/property_map_template.xml',
+    'views/qweb_templates/property_detail_page.xml'
 
 ],
     'assets': {

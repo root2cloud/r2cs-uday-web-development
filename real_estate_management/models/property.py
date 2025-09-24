@@ -1,6 +1,10 @@
 from odoo import models, fields, api, _
 import logging
 from datetime import date
+import requests
+import json
+import time
+from requests.exceptions import HTTPError
 
 _logger = logging.getLogger(__name__)
 
@@ -21,7 +25,7 @@ class Property(models.Model):
     image = fields.Image(string='Property Image')
 
     # Address fields
-    street = fields.Char(string='Street', required=True)
+    street = fields.Char(string='Street')
     street2 = fields.Char(string='Street 2')
     city = fields.Char(string='City', required=True, default='Visakhapatnam')
     zip_code = fields.Char(string='ZIP')
@@ -55,6 +59,18 @@ class Property(models.Model):
     views = fields.Integer(string='Views', default=0)
     category_id = fields.Many2one('property.category', string='Category')
 
+    # AI-generated fields
+    ai_property_description = fields.Html(readonly=True)
+    ai_investment_benefits = fields.Text(readonly=True)
+    ai_lifestyle_benefits = fields.Text(readonly=True)
+    ai_nearby_facilities = fields.Text(readonly=True)
+    ai_unique_selling_points = fields.Text(readonly=True)
+    ai_content_generated = fields.Boolean(default=False)
+    ai_generation_date = fields.Datetime()
+    last_viewed = fields.Datetime(string='Last Viewed')  # Ensure this field is defined
+    image_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'property.property')],
+                                string="AI Generated Images")
+
     @api.depends('image_ids')
     def _compute_image_count(self):
         for rec in self:
@@ -82,7 +98,7 @@ class Property(models.Model):
                 if coords and len(coords) == 2:
                     rec.latitude, rec.longitude = coords
                     rec.date_localization = fields.Date.context_today(rec)
-                    _logger.info(f"Geocoded {rec.name}: {coords}")
+                    print(f"Geocoded {rec.name}: {coords}")
                 else:
                     rec.latitude = rec.longitude = False
                     rec.date_localization = False
@@ -91,3 +107,68 @@ class Property(models.Model):
                 rec.latitude = rec.longitude = False
                 rec.date_localization = False
                 _logger.error(f"Geocode error {rec.name}: {e}")
+
+    def generate_ai_content(self):
+        api_key = self.env['ir.config_parameter'].sudo().get_param('openai.api_key')
+        if not api_key:
+            _logger.error("OpenAI API key is not configured in system parameters.")
+            return
+
+        _logger.info(f"Generating AI content for property: {self.name}")
+        location = f"{self.street}, {self.street2 or ''}, {self.city}"
+        prompt = (
+            f"Generate marketing content for a real estate property named '{self.name}', "
+            f"located at {location}, priced at ₹{self.price:,}, type {self.category_id.name or 'N/A'}. "
+            "Return the response as a JSON object with the following keys: "
+            "'description' (a detailed HTML description of the property), "
+            "'investment_benefits' (text listing investment benefits), "
+            "'lifestyle_benefits' (text listing lifestyle benefits), "
+            "'nearby_facilities' (text listing nearby facilities), "
+            "'unique_selling_points' (text listing unique selling points)."
+        )
+        headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
+        payload = {
+            'model': 'gpt-4o-mini',
+            'messages': [
+                {'role': 'system', 'content': 'You are a real estate marketing expert.'},
+                {'role': 'user', 'content': prompt}
+            ],
+            'max_tokens': 800,
+            'temperature': 0.7
+        }
+
+        try:
+            res = requests.post(
+                'https://api.openai.com/v1/chat/completions',
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+            res.raise_for_status()
+            response_data = res.json()
+            _logger.info(f"OpenAI API response for property {self.name}: {response_data}")
+            response_text = response_data['choices'][0]['message']['content']
+            print(response_text)
+            if response_text.startswith("```json"):
+                response_text = response_text.replace("```json", "").replace("```", "").strip()
+            try:
+                js = json.loads(response_text)
+            except Exception as e:
+                print("Wrong", e)
+                js = {
+                    'description': response_text,
+                }
+            self.write({
+                'ai_property_description': js.get('description', ''),
+                'ai_investment_benefits': js.get('investment_benefits', ''),
+                'ai_lifestyle_benefits': js.get('lifestyle_benefits', ''),
+                'ai_nearby_facilities': js.get('nearby_facilities', ''),
+                'ai_unique_selling_points': js.get('unique_selling_points', ''),
+                'ai_content_generated': True,
+                'ai_generation_date': fields.Datetime.now(),
+            })
+            _logger.info(f"AI content written for property {self.name}: {js}")
+
+        except Exception as e:
+            _logger.error(f"AI generation failed for property {self.name}: {e}")
+            return
