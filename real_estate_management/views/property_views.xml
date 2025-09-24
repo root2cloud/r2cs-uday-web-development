@@ -1,69 +1,266 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="real_estate_management_property_list_view" model="ir.ui.view">
-        <field name="name">property.property.list.view</field>
+    <!-- Tree (List) View -->
+    <record id="view_property_list" model="ir.ui.view">
+        <field name="name">property.property.list</field>
         <field name="model">property.property</field>
         <field name="arch" type="xml">
-            <list string="Property Listings">
+            <list>
                 <field name="name"/>
-                <field name="alias_name"/>
                 <field name="price"/>
+                <field name="plot_area"/>
+                <field name="facing_direction"/>
+                <field name="title_status"/>
                 <field name="city"/>
-                <field name="zip_code"/>
+                <field name="is_published"/>
                 <field name="views"/>
             </list>
         </field>
     </record>
 
-    <record id="real_estate_management_property_form_view" model="ir.ui.view">
-        <field name="name">property.property.form.view</field>
+    <!-- Form View -->
+    <record id="view_property_form" model="ir.ui.view">
+        <field name="name">property.property.form</field>
         <field name="model">property.property</field>
         <field name="arch" type="xml">
-            <form string="Property Details">
+            <form string="Property">
                 <sheet>
+                    <notebook>
+
+                        <!-- Page 1: General Information -->
+                        <page string="General Information">
+                            <group>
+                                <group string="Basic Details">
+                                    <field name="name" required="1"/>
+                                    <field name="category_id" options="{'no_create': True}"/>
+                                    <field name="short_description"/>
+                                    <field name="detailed_description" widget="html"/>
+                                </group>
+                                <group string="Pricing">
+                                    <field name="price"/>
+                                    <field name="plot_area"/>
+                                    <field name="price_per_sqft" readonly="1"/>
+                                    <field name="currency_id" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="facing_direction"/>
+                                <field name="road_width"/>
+                                <field name="title_status"/>
+                            </group>
+                            <group string="Publication" colspan="2">
+                                <field name="is_published"/>
+                                <field name="views" readonly="1"/>
+                                <field name="last_viewed" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Page 2: Location -->
+                        <page string="Location">
+                            <group>
+                                <field name="street"/>
+                                <field name="city" required="1" readonly="1" default="Visakhapatnam"/>
+                                <field name="zip_code"/>
+                                <field name="state_id" readonly="1"/>
+                                <field name="country_id" readonly="1"/>
+                            </group>
+                            <group string="Geolocation" colspan="2">
+                                <field name="latitude" readonly="1"/>
+                                <field name="longitude" readonly="1"/>
+                                <field name="date_localization" readonly="1"/>
+
+                            </group>
+                            <group string="Landmarks">
+                                <field name="nearby_landmarks" widget="text"/>
+                            </group>
+                        </page>
+
+                        <!-- Page 3: Financials & Infrastructure -->
+                        <page string="Financials &amp; Infrastructure">
+                            <group string="Financials">
+                                <field name="emi_available"/>
+                                <field name="registration_charges"/>
+                                <field name="registration_amount" readonly="1"/>
+                            </group>
+                            <group string="Infrastructure">
+                                <field name="water_connection"/>
+                                <field name="electricity_connection"/>
+                                <field name="drainage_facility"/>
+                                <field name="gated_community"/>
+                            </group>
+                        </page>
+
+                        <!-- Page 4: Contact & Media -->
+                        <page string="Contact &amp; Media">
+                            <group string="Contact">
+                                <field name="contact_name"/>
+                                <field name="contact_phone"/>
+                                <field name="contact_email"/>
+                            </group>
+                            <group string="Media">
+                                <field name="image"/>
+                                <field name="marketing_video_url"/>
+                                <field name="property_website_url"/>
+                            </group>
+                        </page>
+
+                        <!-- Page 5: AI Insights -->
+                        <page string="AI Insights">
+                            <group>
+                                <field name="ai_key_highlights" readonly="1"/>
+                                <field name="ai_investment_data" readonly="1"/>
+                                <field name="ai_nearby_places" readonly="1"/>
+                                <field name="ai_unique_features" readonly="1"/>
+                                <field name="ai_lifestyle_benefits" readonly="1"/>
+                                <field name="ai_content_generated" readonly="1"/>
+                                <field name="ai_generation_date" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Page 6: Advanced Details (States-based visibility) -->
+                        <page string="More Details">
+                            <group>
+                                <field name="gallery_image_ids" widget="many2many_tags"/>
+                                <field name="ai_generated_image_ids" widget="many2many_tags"/>
+                                <field name="image_count" readonly="1"/>
+                                <field name="seo_title"/>
+                                <field name="seo_description" widget="text"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="real_estate_management_property_form_view" model="ir.ui.view">
+        <field name="name">property.property.form</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <form string="Property">
+                <sheet>
+                    <notebook>
+
+                        <!-- Overview -->
+                        <page string="Overview">
+                            <group>
+                                <field name="name"/>
+                                <field name="category_id" options="{'no_create': True}"/>
+                                <field name="short_description"/>
+                                <field name="detailed_description" widget="html"/>
+                                <field name="price"/>
+                                <field name="plot_area"/>
+                                <field name="price_per_sqft" readonly="1"/>
+                                <field name="facing_direction"/>
+                                <field name="road_width"/>
+                                <field name="title_status"/>
+                            </group>
+                        </page>
+
+                        <!-- Location -->
+                        <page string="Location">
+                            <group>
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="city" readonly="1"/>
+                                <field name="zip_code"/>
+                                <field name="state_id" readonly="1"/>
+                                <field name="country_id" readonly="1"/>
+                                <field name="latitude" readonly="1"/>
+                                <field name="longitude" readonly="1"/>
+                                <field name="date_localization" readonly="1"/>
+                                <field name="nearby_landmarks"/>
+                            </group>
+                        </page>
+
+                        <!-- Financials -->
+                        <page string="Financials">
+                            <group>
+                                <field name="emi_available"/>
+                                <field name="registration_charges"/>
+                                <field name="registration_amount" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Infrastructure -->
+                        <page string="Infrastructure">
+                            <group>
+                                <field name="water_connection"/>
+                                <field name="electricity_connection"/>
+                                <field name="drainage_facility"/>
+                                <field name="gated_community"/>
+                            </group>
+                        </page>
+
+                        <!-- Media & SEO -->
+                        <page string="Media &amp; SEO">
+                            <group>
+                                <field name="image"/>
+                                <field name="gallery_image_ids" widget="many2many_binary"/>
+                                <field name="ai_generated_image_ids" widget="many2many_binary"/>
+                            </group>
+                            <group>
+                                <field name="seo_title"/>
+                                <field name="seo_description"/>
+                            </group>
+                            <group>
+                                <field name="marketing_video_url"/>
+                                <field name="property_website_url"/>
+                            </group>
+                        </page>
+
+                        <!-- Contact -->
+                        <page string="Contact">
+                            <group>
+                                <field name="contact_name"/>
+                                <field name="contact_phone"/>
+                                <field name="contact_email"/>
+                            </group>
+                        </page>
+
+                        <!-- AI Insights -->
+                        <page string="AI Insights">
+                            <group>
+                                <button name="action_regenerate_ai_content"
+                                        type="object"
+                                        string="Re-generate AI Content"
+                                        class="btn-primary"
+                                        icon="fa-refresh"/>
+                            </group>
+                            <group>
+                                <field name="ai_key_highlights"/>
+                                <field name="ai_investment_data"/>
+                                <field name="ai_nearby_places"/>
+                                <field name="ai_unique_features"/>
+                                <field name="ai_lifestyle_benefits"/>
+                            </group>
+                            <group>
+                                <field name="ai_content_generated" readonly="1"/>
+                                <field name="ai_generation_date" readonly="1"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                    <!-- Metadata -->
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="category_id" options="{'no_create': True}"/>
-                            <field name="alias_name"/>
-                            <field name="price"/>
-                            <field name="marketing_video_url"/>
-                            <field name="property_website_url"/>
-                            <field name="short_description"/>
-                            <field name="detailed_description" nolabel="1" widget="html"/>
-                            <field name="street"/>
-                            <field name="street2"/>
-                            <field name="city" readonly="1"/>
-                            <field name="zip_code"/>
-                            <field name="state_id" readonly="1"/>
-                            <field name="country_id" readonly="1"/>
-                            <field name="latitude" readonly="1"/>
-                            <field name="longitude" readonly="1"/>
-                            <field name="date_localization" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image'}"/>
-                            <field name="image_ids" widget="many2many_binary" options="{'no_create': True}"/>
-                            <field name="amenities"/>
-                            <field name="nearby_landmarks"/>
-                            <field name="contact_name"/>
-                            <field name="contact_phone"/>
-                            <field name="contact_email"/>
-                            <field name="contact_website"/>
-                            <field name="seo_title"/>
-                            <field name="seo_description"/>
-                            <field name="is_published"/>
-                            <field name="views"/>
-                            <field name="image_count" readonly="1"/>
-                        </group>
+                        <field name="views" readonly="1"/>
+                        <field name="last_viewed" readonly="1"/>
+                        <field name="is_published"/>
                     </group>
                 </sheet>
                 <chatter/>
             </form>
         </field>
     </record>
-
     <record id="real_estate_management.action_property_management" model="ir.actions.act_window">
         <field name="name">Property Listings</field>
         <field name="res_model">property.property</field>

@@ -1,77 +1,236 @@
 <odoo>
     <template id="property_detail_page" name="Property Detail Page">
         <t t-call="website.layout">
-            <div id="wrap"> <!-- Hero Banner -->
-                <section class="s_website_banner text-center" style="padding: 60px 0; background: #f5f5f5;">
-                    <div class="container">
-                        <h1 t-field="property.name" class="display-4"/>
-                        <p t-field="property.short_description" class="lead mt-3"/>
-                    </div>
-                </section> <!-- Main Content -->
-                <section class="s_property_overview py-5">
-                    <div class="container">
-                        <div class="row"> <!-- Image -->
-                            <div class="col-lg-7 mb-4">
+            <t t-set="head">
+                <meta name="title" t-att-content="property.seo_title or property.name"/>
+                <meta name="description" t-att-content="property.seo_description or property.short_description"/>
+                <meta name="keywords" content="real estate, Visakhapatnam, property for sale, plots, apartments"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+                <link rel="stylesheet" href="/real_estate_management/static/src/css/property_detail.css"/>
+            </t>
+            <div id="wrap" class="property-detail">
+                <!-- Hero Banner with Carousel -->
+                <section class="hero-banner position-relative overflow-hidden text-white text-center"
+                         style="height: 60vh;">
+                    <div id="propertyCarousel" class="carousel slide h-100">
+                        <div class="carousel-inner h-100">
+                            <div class="carousel-item active h-100">
                                 <img t-att-src="'/web/image/property.property/%s/image' % property.id"
-                                     class="img-fluid rounded shadow-sm"/>
-                            </div> <!-- Summary -->
-                            <div class="col-lg-5">
-                                <div class="p-4 bg-white rounded shadow-sm">
-                                    <h2 class="text-success">₹
-                                        <span t-field="property.price"/>
-                                    </h2>
-                                    <ul class="list-unstyled mt-3 mb-4">
-                                        <li>
-                                            <strong>Address:</strong>
-                                            <span t-field="property.street"/>,
-                                            <span t-field="property.city"/>
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            <span t-field="property.category_id"/>
-                                        </li>
-                                        <li>
-                                            <strong>Views:</strong>
-                                            <span t-field="property.views"/>
-                                        </li>
-                                    </ul>
-                                    <a href="/contact" class="btn btn-primary btn-block">Enquire Now</a>
+                                     class="d-block w-100 h-100 object-fit-cover" alt="Cover Image"/>
+                            </div>
+                            <t t-foreach="property.gallery_image_ids + property.ai_generated_image_ids" t-as="img">
+                                <div class="carousel-item h-100">
+                                    <img t-att-src="'/web/image/ir.attachment/%s/datas' % img.id"
+                                         class="d-block w-100 h-100 object-fit-cover" alt="Gallery Image"/>
                                 </div>
-                            </div>
+                            </t>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                </section> <!-- AI-Generated Sections -->
-                <section class="s_property_details py-5 bg-light">
+                    <div class="position-absolute top-50 start-50 translate-middle text-center bg-dark bg-opacity-50 p-4 rounded">
+                        <h1 t-field="property.name" class="mb-2 text-white"/>
+                        <p t-field="property.short_description" class="lead"/>
+                        <a t-att-href="'/contact?property_id=%s' % property.id" class="btn btn-primary mt-3">
+                            <i class="fas fa-phone me-2"></i>Enquire Now
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Quick Facts Section -->
+                <section class="quick-facts py-5 bg-light">
                     <div class="container">
-                        <div class="content-section mb-5">
-                            <h3>Property Overview</h3>
-                            <div t-field="property.ai_property_description" class="p-3 bg-white rounded shadow-sm"/>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <h4>Investment Benefits</h4>
-                                <div t-field="property.ai_investment_benefits" class="p-3 bg-white rounded shadow-sm"/>
+                        <div class="row text-center">
+                            <div class="col-md-3 mb-4">
+                                <i class="fas fa-rupee-sign fa-3x text-primary mb-2"></i>
+                                <h4>
+                                    <span t-field="property.price" t-options='{"widget": "monetary"}'/>
+                                </h4>
+                                <p>Total Price</p>
                             </div>
-                            <div class="col-md-6 mb-4">
-                                <h4>Lifestyle Benefits</h4>
-                                <div t-field="property.ai_lifestyle_benefits" class="p-3 bg-white rounded shadow-sm"/>
+                            <div class="col-md-3 mb-4">
+                                <i class="fas fa-ruler-combined fa-3x text-primary mb-2"></i>
+                                <h4>
+                                    <span t-field="property.plot_area"/>
+                                    Sq.Ft.
+                                </h4>
+                                <p>Plot Area</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <h4>Nearby Facilities</h4>
-                                <div t-field="property.ai_nearby_facilities" class="p-3 bg-white rounded shadow-sm"/>
+                            <div class="col-md-3 mb-4">
+                                <i class="fas fa-compass fa-3x text-primary mb-2"></i>
+                                <h4>
+                                    <span t-field="property.facing_direction"/>
+                                </h4>
+                                <p>Facing</p>
                             </div>
-                            <div class="col-md-6 mb-4">
-                                <h4>Why Buy?</h4>
-                                <div t-field="property.ai_unique_selling_points"
-                                     class="p-3 bg-white rounded shadow-sm"/>
+                            <div class="col-md-3 mb-4">
+                                <i class="fas fa-check-circle fa-3x text-primary mb-2"></i>
+                                <h4>
+                                    <span t-field="property.title_status"/>
+                                </h4>
+                                <p>Title Status</p>
                             </div>
                         </div>
                     </div>
                 </section>
+
+                <!-- Property Overview -->
+                <section class="overview py-5">
+                    <div class="container">
+                        <h2 class="text-center mb-4"><i class="fas fa-home me-2"></i>Property Overview
+                        </h2>
+                        <div t-field="property.ai_key_highlights" class="mb-3"/>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                Road Width:
+                                <t t-out="property.road_width or 'N/A'"/>
+                                Feet
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                Infrastructure:
+                                <t t-out="'Water, ' if property.water_connection else ''"/>
+                                <t t-out="'Electricity, ' if property.electricity_connection else ''"/>
+                                <t t-out="'Drainage, ' if property.drainage_facility else ''"/>
+                                <t t-out="'Gated Community' if property.gated_community else ''"/>
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                Category:
+                                <t t-out="property.category_id.name or 'N/A'"/>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Investment Snapshot Table -->
+                <section class="investment py-5 bg-light">
+                    <div class="container">
+                        <h2 class="text-center mb-4"><i class="fas fa-chart-line me-2"></i>Investment Snapshot
+                        </h2>
+                        <div t-field="property.ai_investment_data" class="mb-3"/>
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Price per Sq.Ft.</td>
+                                    <td>₹
+                                        <t t-out="'{:,}'.format(property.price_per_sqft) if property.price_per_sqft else 'N/A'"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Registration Amount</td>
+                                    <td>
+                                        <span t-field="property.registration_amount"
+                                              t-options='{"widget": "monetary"}'/>
+                                    </td>
+                                </tr>
+                                <tr t-if="property.emi_available">
+                                    <td>EMI</td>
+                                    <td>Available</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Description & Nearby Places -->
+                <section class="description-facilities py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h3><i class="fas fa-info-circle me-2"></i>Property Description
+                                </h3>
+                                <div t-field="property.detailed_description"
+                                     t-att-class="'' if property.detailed_description else 'text-muted'">No description
+                                    available.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h3><i class="fas fa-map-signs me-2"></i>Nearby Places
+                                </h3>
+                                <div t-field="property.ai_nearby_places"
+                                     t-att-class="'' if property.ai_nearby_places else 'text-muted'">No nearby places
+                                    available.
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                        Landmarks:
+                                        <t t-out="property.nearby_landmarks or 'N/A'"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Unique Selling Points -->
+                <section class="usp py-5 bg-light">
+                    <div class="container">
+                        <h2 class="text-center mb-4"><i class="fas fa-star me-2"></i>Why Buy This Property?
+                        </h2>
+                        <div t-field="property.ai_unique_features"
+                             t-att-class="'' if property.ai_unique_features else 'text-muted'">No unique features
+                            available.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Video Section -->
+                <t t-if="property.marketing_video_url">
+                    <section class="video py-5">
+                        <div class="container">
+                            <h2 class="text-center mb-4"><i class="fas fa-video me-2"></i>Property Video Tour
+                            </h2>
+                            <div class="ratio ratio-16x9">
+                                <iframe t-att-src="property.marketing_video_url" allowfullscreen="true"/>
+                            </div>
+                        </div>
+                    </section>
+                </t>
+
+                <!-- Contact Section -->
+                <section class="contact py-5">
+                    <div class="container text-center">
+                        <h2><i class="fas fa-envelope me-2"></i>Get in Touch
+                        </h2>
+                        <p>
+                            Contact:
+                            <t t-out="property.contact_name or 'Our Team'"/>
+                            |
+                            <t t-out="property.contact_phone or 'N/A'"/>
+                            |
+                            <a t-att-href="'mailto:%s' % property.contact_email if property.contact_email else '#'"
+                               t-att-class="'text-muted' if not property.contact_email else ''">
+                                <t t-out="property.contact_email or 'N/A'"/>
+                            </a>
+                        </p>
+                        <a t-att-href="'/contact?property_id=%s' % property.id" class="btn btn-primary btn-lg">
+                            <i class="fas fa-phone me-2"></i>Schedule a Site Visit
+                        </a>
+                    </div>
+                </section>
             </div>
-            <link rel="stylesheet" href="/real_estate_management/static/src/css/property_detail.css"/>
+
+            <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"/>
         </t>
     </template>
 </odoo>

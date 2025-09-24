@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class RealEstateController(http.Controller):
 
-    @http.route('/property-map', type='http', auth='public', website=True)
+    @http.route('/', type='http', auth='public', website=True)
     def property_map(self, **kwargs):
         # Fetch published properties from database
         Property = request.env['property.property'].sudo()
@@ -66,11 +66,9 @@ class RealEstateController(http.Controller):
                     'short_description': prop.short_description or '',
                     'image_url': image_url,
                     'property_type': cat,
-                    'amenities': prop.amenities or '',
                     'nearby_landmarks': prop.nearby_landmarks or '',
                     'views': prop.views or 0,
                     'seo_title': prop.seo_title or '',
-                    'alias_name': prop.alias_name or '',
                     'marker_color': category_colors[cat],
                     'full_address': full_address,
                 })
@@ -99,9 +97,5 @@ class RealEstateController(http.Controller):
             _logger.error(f"Failed to update views for property {prop.id}: {e}")
         return request.render('real_estate_management.property_detail_page', {
             'property': prop,
-            'ai_description': prop.ai_property_description,
-            'ai_investment': prop.ai_investment_benefits,
-            'ai_lifestyle': prop.ai_lifestyle_benefits,
-            'ai_nearby': prop.ai_nearby_facilities,
-            'ai_unique': prop.ai_unique_selling_points,
+
         })
