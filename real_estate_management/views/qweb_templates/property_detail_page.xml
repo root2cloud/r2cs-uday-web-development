@@ -9,7 +9,10 @@
                 <link rel="stylesheet"
                       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
                 <link rel="stylesheet" href="/real_estate_management/static/src/css/property_detail.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
             </t>
+
+
             <div id="wrap" class="property-detail">
                 <!-- Hero Banner with Carousel -->
                 <section class="hero-banner position-relative overflow-hidden text-white text-center"
@@ -20,7 +23,7 @@
                                 <img t-att-src="'/web/image/property.property/%s/image' % property.id"
                                      class="d-block w-100 h-100 object-fit-cover" alt="Cover Image"/>
                             </div>
-                            <t t-foreach="property.gallery_image_ids + property.ai_generated_image_ids" t-as="img">
+                            <t t-foreach="property.gallery_image_ids" t-as="img">
                                 <div class="carousel-item h-100">
                                     <img t-att-src="'/web/image/ir.attachment/%s/datas' % img.id"
                                          class="d-block w-100 h-100 object-fit-cover" alt="Gallery Image"/>
@@ -41,8 +44,29 @@
                     <div class="position-absolute top-50 start-50 translate-middle text-center bg-dark bg-opacity-50 p-4 rounded">
                         <h1 t-field="property.name" class="mb-2 text-white"/>
                         <p t-field="property.short_description" class="lead"/>
-                        <a t-att-href="'/contact?property_id=%s' % property.id" class="btn btn-primary mt-3">
+                    </div>
+                    <div class="sticky-cta fixed-bottom bg-primary text-white text-center py-3" style="z-index: 1000;">
+
+                        <a t-att-href="'tel:%s' % (property.contact_phone or '8187023634')"
+                           class="btn btn-light mx-2 animate__animated animate__pulse animate__infinite">
                             <i class="fas fa-phone me-2"></i>Enquire Now
+                        </a>
+
+                        <!-- WhatsApp button -->
+                        <t t-set="wa_text" t-value="
+        'I am interested in this property: %s\nAddress: %s, %s\nImage: %s' % (
+            property.name or '',
+            property.street or '',
+            property.city or '',
+            '/web/image/property.property/%s/image' % property.id
+        )
+    "/>
+                        <t t-set="wa_text_encoded"
+                           t-value="wa_text.replace(' ', '%20').replace('&amp;','%26').replace('\n','%0A')"/>
+                        <a t-att-href="'https://wa.me/7032959650?text=' + wa_text_encoded"
+                           class="btn btn-success mx-2 animate__animated animate__pulse animate__infinite"
+                           target="_blank">
+                            <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
                         </a>
                     </div>
                 </section>
@@ -84,7 +108,59 @@
                     </div>
                 </section>
 
-                <!-- Property Overview -->
+
+                <!-- Share Options Section  -->
+                <section class="social-share text-center py-5 bg-light rounded-3 my-3 shadow">
+                    <div class="container">
+                        <h3 class="mb-3 fw-bold fs-2 animate__animated animate__pulse">
+                            <i class="fas fa-share-alt me-2 text-warning fa-beat-fade"></i>
+                            Share This Premium Property &amp; Unlock Exclusive Deals!
+                        </h3>
+                        <p class="mb-4 text-muted fs-5">
+                            Spread the word about this stunning find in Visakhapatnam 🚀
+                        </p>
+                        <div class="d-flex justify-content-center flex-wrap gap-3 animate__animated animate__pulse">
+                            <!-- WhatsApp -->
+                            <t t-set="wa_text" t-value="
+                'Check out this amazing property: %s\nAddress: %s\nImage: %s\nLink: %s' % (
+                    (property.name or '').replace('&amp;', '&amp;'),
+                    (property.street or '').replace('&amp;', '&amp;'),
+                    '/web/image/property.property/%s/image' % property.id if property.image else 'https://yourdomain.com/static/images/placeholder.jpg',
+                    request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id
+                )
+            "/>
+                            <t t-set="wa_text_encoded" t-value="wa_text.replace(' ', '%20').replace('\n', '%0A')"/>
+                            <a t-att-href="'https://wa.me/?text=' + wa_text_encoded"
+                               class="btn btn-success social-btn social-animate d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__pulse animate__infinite"
+                               target="_blank"
+                               title="Share on WhatsApp">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                            <!-- Facebook -->
+                            <a t-att-href="'https://www.facebook.com/sharer/sharer.php?u=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id)"
+                               class="btn btn-primary social-btn social-animate d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__pulse animate__infinite"
+                               target="_blank"
+                               title="Share on Facebook">
+                                <i class="fab fa-facebook-f me-2"></i>Facebook
+                            </a>
+                            <!-- Twitter -->
+                            <a t-att-href="'https://twitter.com/intent/tweet?url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;text=' + ('Check%20out%20this%20amazing%20property:%20' + (property.name or '').replace(' ', '%20'))"
+                               class="btn btn-info social-btn social-animate d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__infinite"
+                               target="_blank"
+                               title="Share on Twitter">
+                                <i class="fab fa-twitter me-2"></i>Twitter
+                            </a>
+                            <!-- LinkedIn -->
+                            <a t-att-href="'https://www.linkedin.com/shareArticle?mini=true&amp;url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;title=' + ((property.seo_title or property.name or '').replace(' ', '%20')) + '&amp;summary=' + ((property.seo_description or property.short_description or 'Discover this premium property in Visakhapatnam!').replace(' ', '%20'))"
+                               class="btn btn-secondary social-btn social-animate d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__infinite"
+                               target="_blank"
+                               title="Share on LinkedIn">
+                                <i class="fab fa-linkedin-in me-2"></i>LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="overview py-5">
                     <div class="container">
                         <h2 class="text-center mb-4"><i class="fas fa-home me-2"></i>Property Overview

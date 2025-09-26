@@ -64,7 +64,7 @@
 
                             <div class="overview-card mx-auto shadow rounded-4 border-0 p-4">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                    <h1 t-esc="property.name" class="mb-0" style="flex-grow: 1;"/>
+                                    <h1 t-out="property.name" class="mb-0" style="flex-grow: 1;"/>
 
                                     <div class="property-share-buttons" style="display: flex; gap: 15px;">
                                         <a t-att-href="'https://www.facebook.com/sharer/sharer.php?u=https://localhost:8018//property/' + property.property_type + '/' + str(property.id)"
@@ -99,30 +99,30 @@
                                 </div>
                                 <p class="fs-5 mb-2 text-secondary">
                                     <strong>Location:</strong>
-                                    <t t-esc="property.location or 'N/A'"/>
+                                    <t t-out="property.location or 'N/A'"/>
                                 </p>
                                 <div class="row text-center mb-2 fs-5">
                                     <div class="col">
                                         <span class="d-block fw-bold">
-                                            <t t-esc="property.square_feet or 'N/A'"/>
+                                            <t t-out="property.square_feet or 'N/A'"/>
                                         </span>
                                         <span class="small text-muted">Sq Ft</span>
                                     </div>
                                     <div class="col">
                                         <span class="d-block fw-bold">
-                                            <t t-esc="property.rental_price or 'N/A'"/>
+                                            <t t-out="property.rental_price or 'N/A'"/>
                                         </span>
                                         <span class="small text-muted">Price</span>
                                     </div>
                                     <div class="col">
                                         <span class="d-block fw-bold">
-                                            <t t-esc="property.availability_status or 'N/A'"/>
+                                            <t t-out="property.availability_status or 'N/A'"/>
                                         </span>
                                         <span class="small text-muted">Status</span>
                                     </div>
                                     <div class="col">
                                         <span class="d-block fw-bold">
-                                            <t t-esc="property.lease_duration or 'N/A'"/>
+                                            <t t-out="property.lease_duration or 'N/A'"/>
                                         </span>
                                         <span class="small text-muted">Lease</span>
                                     </div>
@@ -151,23 +151,23 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <strong>Bedrooms:</strong>
-                                    <t t-esc="property.bedrooms or 'N/A'"/>
+                                    <t t-out="property.bedrooms or 'N/A'"/>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Bathrooms:</strong>
-                                    <t t-esc="property.bathrooms or 'N/A'"/>
+                                    <t t-out="property.bathrooms or 'N/A'"/>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Square Feet:</strong>
-                                    <t t-esc="property.square_feet or 'N/A'"/>
+                                    <t t-out="property.square_feet or 'N/A'"/>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Deposit Amount:</strong>
-                                    <t t-esc="property.deposit_amount or 'N/A'"/>
+                                    <t t-out="property.deposit_amount or 'N/A'"/>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Status:</strong>
-                                    <t t-esc="property.status or 'N/A'"/>
+                                    <t t-out="property.status or 'N/A'"/>
                                 </li>
                             </ul>
                         </section>

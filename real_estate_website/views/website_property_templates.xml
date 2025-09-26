@@ -17,8 +17,8 @@
                                         <t t-out="property.price"/>
                                     </p>
                                     <p>
-                                        Location:<t t-out="property.street"/>,<t t-esc="property.city"/>,
-                                        <t t-out="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
+                                        Location:<t t-out="property.street"/>,<t t-out="property.city"/>,
+                                        <t t-out="property.state_id.name"/>,<t t-out="property.country_id.name"/>,
                                         <t t-out="property.zip"/>
                                     </p>
                                     <a t-attf-href="/property/{{ property.id }}" class="btn btn-primary">View Details
@@ -37,37 +37,37 @@
             <div class="container mt16 mb16">
                 <a href="/properties">Back to Listings</a>
                 <h1>
-                    <t t-esc="property.name"/>
+                    <t t-out="property.name"/>
                 </h1>
                 <img t-if="property.image" t-att-src="'data:image/png;base64,%s' % property.image"
                      class="img-fluid mb16"/>
                 <p>
                     <strong>Price:</strong>
                     $
-                    <t t-esc="property.price"/>
+                    <t t-out="property.price"/>
                 </p>
                 <p>
                     <strong>Location:</strong>
-                    <t t-esc="property.street"/>,<t t-esc="property.city"/>,
-                    <t t-esc="property.state_id.name"/>,<t t-esc="property.country_id.name"/>,
-                    <t t-esc="property.zip"/>
+                    <t t-out="property.street"/>,<t t-out="property.city"/>,
+                    <t t-out="property.state_id.name"/>,<t t-out="property.country_id.name"/>,
+                    <t t-out="property.zip"/>
                 </p>
                 <p>
                     <strong>Bedrooms:</strong>
-                    <t t-esc="property.bedrooms"/>
+                    <t t-out="property.bedrooms"/>
                 </p>
                 <p>
                     <strong>Bathrooms:</strong>
-                    <t t-esc="property.bathrooms"/>
+                    <t t-out="property.bathrooms"/>
                 </p>
                 <p>
                     <strong>Area:</strong>
-                    <t t-esc="property.area"/>
+                    <t t-out="property.area"/>
                     sq ft
                 </p>
                 <p>
                     <strong>Status:</strong>
-                    <t t-esc="property.status"/>
+                    <t t-out="property.status"/>
                 </p>
                 <div>
                     <t t-raw="property.description"/>

@@ -77,10 +77,13 @@ class Property(models.Model):
     contact_email = fields.Char(string='Email')
 
     # Media & SEO
-    gallery_image_ids = fields.Many2many('ir.attachment', string='Gallery Images')
-    ai_generated_image_ids = fields.One2many('ir.attachment', 'res_id',
-                                             domain=[('res_model', '=', 'property.property')],
-                                             string="AI Generated Images")
+    gallery_image_ids = fields.Many2many(
+        'ir.attachment',
+        'property_gallery_rel',
+        'property_id',
+        'attachment_id',
+        string="Gallery Images"
+    )
     image_count = fields.Integer(string='Number of Images', compute='_compute_image_count')
     seo_title = fields.Char(string='SEO Title')
     seo_description = fields.Text(string='SEO Description')

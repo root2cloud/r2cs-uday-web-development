@@ -55,6 +55,96 @@ h2, h3 {
 .carousel-item img {
     max-height: 60vh;
 }
+---------------------------------------------------------------->
+/* Social Share Section Styling */
+.social-share {
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styling */
+.social-btn {
+    width: 160px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover Effects with Animate.css Integration */
+.social-share .social-btn:hover {
+    animation: bounceFade 0.5s ease-out;
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.social-share .social-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Bounce and Fade Animation */
+@keyframes bounceFade {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* Icon Hover Effects */
+.social-share .social-btn i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-share .social-btn:hover i {
+    transform: scale(1.2) rotate(15deg);
+    color: #ffd700; /* Gold with slight variation */
+}
+
+/* Pulse Animation (Separate from Hover) */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.social-share .social-animate {
+    animation: pulse 4s infinite;
+}
+
+
+/* Responsive Button Widths */
+@media (max-width: 768px) {
+    .social-share .social-btn {
+        width: 140px;
+    }
+}
+
+@media (max-width: 576px) {
+    .social-share .social-btn {
+        width: 120px;
+    }
+}
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.social-share .social-animate {
+    animation: pulse 4s infinite;
+}
+
+
+/* Responsive Button Widths */
+@media (max-width: 768px) {
+    .social-share .social-btn {
+        width: 140px;
+    }
+}
+
+@media (max-width: 576px) {
+    .social-share .social-btn {
+        width: 120px;
+    }
+}
+----------------------------------------------->
+
 .description-facilities .col-md-6 div {
     font-size: 1rem;
     line-height: 1.6;

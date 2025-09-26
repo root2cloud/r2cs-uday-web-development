@@ -8,7 +8,7 @@
                     <div class="container">
                         <h1 class="display-4">
                             <t t-if="property_type != 'all'">
-                                <t t-esc="property_type.capitalize()"/>
+                                <t t-out="property_type.capitalize()"/>
                                 Properties
                             </t>
                             <t t-else="">All Properties</t>
@@ -23,7 +23,7 @@
                                     <option t-att-selected="property_type == 'all'" value="all">All Properties</option>
                                     <t t-foreach="valid_types" t-as="ptype">
                                         <option t-att-selected="property_type == ptype" t-att-value="ptype"
-                                                t-esc="ptype.capitalize()"/>
+                                                t-out="ptype.capitalize()"/>
                                     </t>
                                 </select>
                             </t>
@@ -38,7 +38,7 @@
                             <t t-foreach="valid_types" t-as="ptype">
                                 <a t-att-href="'/properties/%s' % ptype"
                                    t-att-class="{'active': property_type == ptype}" class="btn btn-outline-primary mx-1"
-                                   t-esc="ptype.capitalize()"/>
+                                   t-out="ptype.capitalize()"/>
                             </t>
                         </nav>
 
@@ -69,12 +69,12 @@
                                         </h5>
                                         <p class="card-text text-muted mb-2">
                                             <strong>Location:</strong>
-                                            <t t-esc="property.location or 'N/A'"/>
+                                            <t t-out="property.location or 'N/A'"/>
                                         </p>
 
                                         <p class="card-text mb-2">
                                             <strong>Price:</strong>
-                                            <t t-esc="property.rental_price or 'N/A'"/>
+                                            <t t-out="property.rental_price or 'N/A'"/>
                                         </p>
 
 
