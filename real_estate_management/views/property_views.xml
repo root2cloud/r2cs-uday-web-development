@@ -106,7 +106,6 @@
                                 <field name="contact_email"/>
                             </group>
                             <group string="Media">
-                                <field name="marketing_video_url"/>
                                 <field name="property_website_url"/>
                                 <field name="gallery_image_ids" widget="many2many_binary"/>
                                 <field name="image_count" readonly="1"/>

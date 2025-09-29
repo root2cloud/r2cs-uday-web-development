@@ -15,6 +15,8 @@ class Property(models.Model):
     name = fields.Char(string='Property Name', required=True, tracking=True)
     short_description = fields.Char(string='Short Description')
     detailed_description = fields.Html(string='Detailed Description')
+    category_id = fields.Many2one('property.category', string='Category')
+
 
     price = fields.Monetary(string='Total Price', currency_field='currency_id')
     plot_area = fields.Float(string='Plot Area (Sq.Ft)')
@@ -35,7 +37,6 @@ class Property(models.Model):
         ('pending', 'Pending Approval')
     ], string='Title Status')
 
-    marketing_video_url = fields.Char(string='Marketing Video')
     property_website_url = fields.Char(string='Property Website')
     image = fields.Image(string='Cover Image')
 
@@ -92,7 +93,6 @@ class Property(models.Model):
     is_published = fields.Boolean(string='Published', default=False)
     views = fields.Integer(string='Views', default=0)
     last_viewed = fields.Datetime(string='Last Viewed')
-    category_id = fields.Many2one('property.category', string='Category')
     nearby_landmarks = fields.Text(string='Nearby Landmarks')
 
     # AI Content Fields

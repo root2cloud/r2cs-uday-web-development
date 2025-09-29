@@ -1,168 +1,250 @@
-.property-detail {
-    font-family: 'Arial', sans-serif;
-    color: #333;
+/* Reset and Base */
+* {
+  box-sizing: border-box;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Override Odoo wrap */
+#wrap.property-detail {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Full-width sections */
+.property-detail main,
+.property-detail section {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 2rem 0 !important;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.property-detail section.bg-light {
+  background: #f8f9fa !important;
+}
+
+/* Hero Banner */
 .hero-banner {
-    background: linear-gradient(to bottom, #007bff, #0056b3);
+  position: relative;
+  background: linear-gradient(to bottom, #007bff, #0056b3);
+  height: 60vh;
+  overflow: hidden;
 }
 
 .hero-banner img {
-    filter: brightness(70%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(70%);
 }
+
+/* Sticky CTA */
+.sticky-cta {
+  z-index: 1000;
+}
+
+.sticky-cta .btn {
+  margin: 0 .5rem;
+}
+
+/* Quick Facts */
+.quick-facts .row {
+  text-align: center;
+}
+
 .quick-facts h4 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
 }
+
+/* Tables & Lists */
 .list-group-item {
-    border: none;
-    padding: 0.75rem 0;
-    font-size: 1.1rem;
+  border: none;
+  padding: .75rem 0;
+  font-size: 1.1rem;
 }
-.table th, .table td {
-    vertical-align: middle;
-    font-size: 1rem;
+
+.table th,
+.table td {
+  vertical-align: middle;
+  font-size: 1rem;
 }
+
 .table th {
-    width: 35%;
+  width: 35%;
 }
+
+/* Buttons */
 .btn-primary {
-    background-color: #007bff;
-    border: none;
-    padding: 12px 24px;
-    transition: background 0.3s;
+  background-color: #007bff;
+  border: none;
+  padding: 12px 24px;
+  transition: background .3s;
 }
+
 .btn-primary:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-section {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background: white;
-}
-.bg-light section {
-    background: #f8f9fa;
-}
+
+/* Headings */
 h2, h3 {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 0.5rem;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: .5rem;
 }
+
+/* Icons */
 .fa-3x {
-    color: #007bff;
+  color: #007bff;
 }
-.carousel-item img {
-    max-height: 60vh;
+
+/* Carousel Controls */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
 }
----------------------------------------------------------------->
-/* Social Share Section Styling */
+
+/* Social Share */
 .social-share {
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100% !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin: 2rem 0 !important;
+  padding: 2rem 0 !important;
 }
 
-/* Button Styling */
 .social-btn {
-    width: 160px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+  width: 160px;
+  transition: transform .3s ease, opacity .3s ease;
 }
 
-/* Hover Effects with Animate.css Integration */
-.social-share .social-btn:hover {
-    animation: bounceFade 0.5s ease-out;
-    transform: scale(1.05);
-    opacity: 0.9;
+.social-btn:hover {
+  transform: scale(1.05);
+  opacity: .9;
 }
 
-.social-share .social-btn:active {
-    transform: scale(0.98);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.social-btn i {
+  transition: transform .3s ease, color .3s ease;
 }
 
-/* Custom Bounce and Fade Animation */
-@keyframes bounceFade {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1.05); opacity: 0.9; }
+.social-btn:hover i {
+  transform: scale(1.2) rotate(15deg);
+  color: #ffd700;
 }
 
-/* Icon Hover Effects */
-.social-share .social-btn i {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.social-share .social-btn:hover i {
-    transform: scale(1.2) rotate(15deg);
-    color: #ffd700; /* Gold with slight variation */
-}
-
-/* Pulse Animation (Separate from Hover) */
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-.social-share .social-animate {
-    animation: pulse 4s infinite;
-}
-
-
-/* Responsive Button Widths */
-@media (max-width: 768px) {
-    .social-share .social-btn {
-        width: 140px;
-    }
-}
-
-@media (max-width: 576px) {
-    .social-share .social-btn {
-        width: 120px;
-    }
-}
-/* Pulse Animation */
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-.social-share .social-animate {
-    animation: pulse 4s infinite;
-}
-
-
-/* Responsive Button Widths */
-@media (max-width: 768px) {
-    .social-share .social-btn {
-        width: 140px;
-    }
-}
-
-@media (max-width: 576px) {
-    .social-share .social-btn {
-        width: 120px;
-    }
-}
------------------------------------------------>
-
+/* Overview & Description */
 .description-facilities .col-md-6 div {
-    font-size: 1rem;
-    line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.6;
 }
+
 .text-muted {
-    font-style: italic;
+  font-style: italic;
+}
+
+/* ------------------------------
+   Recommendations Section Layout
+--------------------------------*/
+
+/* Container uses flexbox instead of .row */
+#recommendationsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem; /* spacing between cards */
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Card wrapper */
+.recommendation-card {
+  flex: 0 0 auto;
+  width: calc(25% - 1.5rem); /* 4 cards per row on large screens */
+}
+
+/* Responsive breakpoints */
+@media (max-width: 992px) {  /* Tablets */
+  .recommendation-card {
+    width: calc(33.333% - 1.5rem); /* 3 cards per row */
+  }
+}
+@media (max-width: 768px) {  /* Large phones */
+  .recommendation-card {
+    width: calc(50% - 1.5rem); /* 2 cards per row */
+  }
+}
+@media (max-width: 576px) {  /* Small phones */
+  .recommendation-card {
+    width: 100%; /* full width */
+  }
+}
+
+/* ------------------------------
+   Card Styling
+--------------------------------*/
+
+/* Card body: padding + vertical layout */
+.recommendations .card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push buttons or footer content to bottom */
+.recommendations .mt-auto {
+  margin-top: auto;
+}
+
+/* Card image adjustments */
+.recommendations .card-img-top {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: cover; /* crop instead of stretching */
+  border-radius: 0.5rem 0.5rem 0 0; /* consistent rounded corners */
+}
+
+/* Badge consistency */
+.recommendations .position-absolute {
+  font-size: 0.75rem;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 2;
+}
+
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .recommendation-card { flex: 0 0 calc(33.333% - 1.5rem); }
 }
 @media (max-width: 768px) {
-    .hero-banner {
-        height: 40vh;
-    }
-    .quick-facts h4 {
-        font-size: 1.2rem;
-    }
-    .list-group-item {
-        font-size: 1rem;
-    }
-    .description-facilities .col-md-6 div {
-        font-size: 0.9rem;
-    }
+  .hero-banner { height: 40vh; }
+  .quick-facts h4 { font-size: 1.2rem; }
+  .list-group-item { font-size: 1rem; }
+  .description-facilities .col-md-6 div { font-size: .9rem; }
+  .social-btn { width: 140px; }
+  .recommendation-card { flex: 0 0 calc(50% - 1.5rem); }
+  .recommendations .btn-group { flex-wrap: wrap; }
+  .recommendations .btn-group .btn {
+    font-size: .75rem;
+    padding: .25rem .5rem;
+    margin: .125rem;
+  }
+}
+@media (max-width: 576px) {
+  .social-btn { width: 120px; }
+  .recommendation-card { flex: 0 0 100%; }
 }
