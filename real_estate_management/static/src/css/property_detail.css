@@ -1,57 +1,50 @@
-/* Reset and Base */
+/* ====================================
+   Reset & Base
+==================================== */
 * {
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* Override Odoo wrap */
-#wrap.property-detail {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0;
+body {
   font-family: Arial, sans-serif;
-  color: #333;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4169e1 0%, #4b0082 100%);
 }
 
-/* Full-width sections */
-.property-detail main,
-.property-detail section {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-  padding: 2rem 0 !important;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  border-radius: 8px;
+/*property pages */
+.property-detail {
+  background: rgba(255,255,255,0.95);
+  border-radius:20px;
+  margin:15px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
 }
 
-.property-detail section.bg-light {
-  background: #f8f9fa !important;
-}
-
-/* Hero Banner */
+/* ====================================
+   Hero Banner
+==================================== */
 .hero-banner {
-  position: relative;
-  background: linear-gradient(to bottom, #007bff, #0056b3);
   height: 60vh;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .hero-banner img {
   width: 100%;
-  height: 100%;
   object-fit: cover;
   filter: brightness(70%);
 }
 
-/* Sticky CTA */
+@media (max-width: 768px) {
+  .hero-banner {
+    height: 40vh;
+  }
+}
+
+/* ====================================
+   Sticky CTA (always visible)
+==================================== */
 .sticky-cta {
   z-index: 1000;
 }
@@ -60,7 +53,9 @@ html, body {
   margin: 0 .5rem;
 }
 
-/* Quick Facts */
+/* ====================================
+   Quick Facts
+==================================== */
 .quick-facts .row {
   text-align: center;
 }
@@ -70,11 +65,26 @@ html, body {
   margin-bottom: .5rem;
 }
 
-/* Tables & Lists */
+@media (max-width: 768px) {
+  .quick-facts h4 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ====================================
+   Tables & Lists
+==================================== */
+.no-bullets-list-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
 .list-group-item {
   border: none;
   padding: .75rem 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
+
 }
 
 .table th,
@@ -83,11 +93,9 @@ html, body {
   font-size: 1rem;
 }
 
-.table th {
-  width: 35%;
-}
-
-/* Buttons */
+/* ====================================
+   Buttons
+==================================== */
 .btn-primary {
   background-color: #007bff;
   border: none;
@@ -99,31 +107,36 @@ html, body {
   background-color: #0056b3;
 }
 
-/* Headings */
+/* ====================================
+   Headings & Icons
+==================================== */
 h2, h3 {
   color: #007bff;
   border-bottom: 2px solid #007bff;
   padding-bottom: .5rem;
 }
 
-/* Icons */
 .fa-3x {
   color: #007bff;
 }
 
-/* Carousel Controls */
+/* ====================================
+   Carousel Controls
+==================================== */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(1);
 }
 
-/* Social Share */
+/* ====================================
+   Social Share
+==================================== */
 .social-share {
-  width: 100% !important;
-  border-radius: 10px;
+  width: 100% ;
+  border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  margin: 2rem 0 !important;
-  padding: 2rem 0 !important;
+  margin: 2rem 0;
+  padding: 2rem 0;
 }
 
 .social-btn {
@@ -145,7 +158,16 @@ h2, h3 {
   color: #ffd700;
 }
 
-/* Overview & Description */
+@media (max-width: 768px) {
+  .social-btn { width: 140px; }
+}
+@media (max-width: 576px) {
+  .social-btn { width: 120px; }
+}
+
+/* ====================================
+   Overview & Description
+==================================== */
 .description-facilities .col-md-6 div {
   font-size: 1rem;
   line-height: 1.6;
@@ -155,96 +177,77 @@ h2, h3 {
   font-style: italic;
 }
 
-/* ------------------------------
-   Recommendations Section Layout
---------------------------------*/
+@media (max-width: 768px) {
+  .description-facilities .col-md-6 div {
+    font-size: .9rem;
+  }
+}
 
-/* Container uses flexbox instead of .row */
+/* ====================================
+   Recommendations Flexbox
+==================================== */
 #recommendationsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem; /* spacing between cards */
+  gap: 1.5rem;
   justify-content: center;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* Card wrapper */
 .recommendation-card {
-  flex: 0 0 auto;
-  width: calc(25% - 1.5rem); /* 4 cards per row on large screens */
-}
-
-/* Responsive breakpoints */
-@media (max-width: 992px) {  /* Tablets */
-  .recommendation-card {
-    width: calc(33.333% - 1.5rem); /* 3 cards per row */
-  }
-}
-@media (max-width: 768px) {  /* Large phones */
-  .recommendation-card {
-    width: calc(50% - 1.5rem); /* 2 cards per row */
-  }
-}
-@media (max-width: 576px) {  /* Small phones */
-  .recommendation-card {
-    width: 100%; /* full width */
-  }
-}
-
-/* ------------------------------
-   Card Styling
---------------------------------*/
-
-/* Card body: padding + vertical layout */
-.recommendations .card-body {
-  padding: 1rem;
+  flex: 0 0 calc(25% - 1.5rem);
+  min-width: 280px;
   display: flex;
   flex-direction: column;
 }
 
-/* Push buttons or footer content to bottom */
-.recommendations .mt-auto {
-  margin-top: auto;
+.card-body.d-flex.flex-column {
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-/* Card image adjustments */
-.recommendations .card-img-top {
-  width: 100%;
-  height: auto;
-  max-height: 180px;
-  object-fit: cover; /* crop instead of stretching */
-  border-radius: 0.5rem 0.5rem 0 0; /* consistent rounded corners */
+.mt-auto {
+  margin-top: auto !important;
 }
 
-/* Badge consistency */
-.recommendations .position-absolute {
-  font-size: 0.75rem;
-  top: 0.5rem;
-  left: 0.5rem;
-  z-index: 2;
-}
-
-
-/* Responsive */
+/* Responsive breakpoints */
 @media (max-width: 1200px) {
-  .recommendation-card { flex: 0 0 calc(33.333% - 1.5rem); }
+  .recommendation-card {
+    flex: 0 0 calc(33.333% - 1.5rem);
+  }
 }
 @media (max-width: 768px) {
-  .hero-banner { height: 40vh; }
-  .quick-facts h4 { font-size: 1.2rem; }
-  .list-group-item { font-size: 1rem; }
-  .description-facilities .col-md-6 div { font-size: .9rem; }
-  .social-btn { width: 140px; }
-  .recommendation-card { flex: 0 0 calc(50% - 1.5rem); }
-  .recommendations .btn-group { flex-wrap: wrap; }
-  .recommendations .btn-group .btn {
-    font-size: .75rem;
-    padding: .25rem .5rem;
-    margin: .125rem;
+  .recommendation-card {
+    flex: 0 0 calc(50% - 1.5rem);
   }
 }
 @media (max-width: 576px) {
-  .social-btn { width: 120px; }
-  .recommendation-card { flex: 0 0 100%; }
+  .recommendation-card {
+    flex: 0 0 100%;
+  }
+}
+
+/* Badge positioning */
+.recommendations .badge.position-absolute {
+  font-size: 0.75rem;
+  z-index: 2;
+}
+
+/* Card image styling */
+.card-img-top {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* Filter buttons wrap on small */
+@media (max-width: 768px) {
+  .btn-group {
+    flex-wrap: wrap !important;
+  }
+  .btn-group .btn {
+    margin: 0.25rem;
+  }
 }

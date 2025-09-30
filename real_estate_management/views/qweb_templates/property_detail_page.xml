@@ -2,6 +2,7 @@
 <odoo>
     <template id="property_detail_page" name="Property Detail Page">
         <t t-call="website.layout">
+            <!-- HEAD: stylesheets (keep these orderable in your final head if needed) -->
             <t t-set="head">
                 <meta name="title" t-att-content="property.seo_title or property.name"/>
                 <meta name="description" t-att-content="property.seo_description or property.short_description"/>
@@ -17,19 +18,20 @@
                 <main class="container-fluid">
                     <div class="row justify-content-center">
                         <div class="col-12">
-                            <!-- Hero Banner with Carousel -->
-                            <section class="hero-banner position-relative overflow-hidden text-white text-center"
-                                     style="height: 60vh;">
+                            <!-- HERO: Carousel + Title + sticky CTA -->
+                            <section class="hero-banner position-relative overflow-hidden text-white text-center">
                                 <div id="propertyCarousel" class="carousel slide h-100">
                                     <div class="carousel-inner h-100">
                                         <div class="carousel-item active h-100">
                                             <img t-att-src="'/web/image/property.property/%s/image' % property.id"
-                                                 class="d-block w-100 h-100 object-fit-cover" alt="Cover Image"/>
+                                                 alt="Cover Image"
+                                                 class="d-block h-100"/>
                                         </div>
                                         <t t-foreach="property.gallery_image_ids" t-as="img">
                                             <div class="carousel-item h-100">
                                                 <img t-att-src="'/web/image/ir.attachment/%s/datas' % img.id"
-                                                     class="d-block w-100 h-100 object-fit-cover" alt="Gallery Image"/>
+                                                     alt="Gallery Image"
+                                                     class="d-block w-100 h-100" style="object-fit: cover;"/>
                                             </div>
                                         </t>
                                     </div>
@@ -44,412 +46,427 @@
                                         <span class="visually-hidden">Next</span>
                                     </button>
                                 </div>
-                                <div class="position-absolute top-50 start-50 translate-middle text-center bg-dark bg-opacity-50 p-4 rounded">
-                                    <h1 t-field="property.name" class="mb-2 text-white"/>
-                                    <p t-field="property.short_description" class="lead"/>
+
+                                <div class="position-absolute top-50 start-50 translate-middle text-white text-center bg-dark bg-opacity-50 p-4 rounded">
+                                    <h1 t-field="property.name" class="mb-2"></h1>
+                                    <p t-field="property.short_description" class="lead"></p>
                                 </div>
-                                <div class="sticky-cta fixed-bottom bg-primary text-white text-center py-3"
-                                     style="z-index: 1000;">
+
+                                <!-- Sticky CTA (visible always) -->
+                                <div class="sticky-cta fixed-bottom bg-primary text-white text-center py-3">
                                     <a t-att-href="'tel:%s' % (property.contact_phone or '8187023634')"
                                        class="btn btn-light mx-2 animate__animated animate__pulse animate__infinite">
                                         <i class="fas fa-phone me-2"></i>Enquire Now
                                     </a>
-                                    <t t-set="wa_text" t-value="
-                                        'I am interested in this property: %s\nAddress: %s, %s\nImage: %s' % (
-                                            property.name or '',
-                                            property.street or '',
-                                            property.city or '',
-                                            '/web/image/property.property/%s/image' % property.id
-                                        )
-                                    "/>
+
+                                    <t t-set="wa_text"
+                                       t-value="'I am interested in this property: %s\nAddress: %s, %s\nImage: %s' % (property.name or '', property.street or '', property.city or '', '/web/image/property.property/%s/image' % property.id)"/>
                                     <t t-set="wa_text_encoded"
                                        t-value="wa_text.replace(' ', '%20').replace('&amp;','%26').replace('\n','%0A')"/>
                                     <a t-att-href="'https://wa.me/7032959650?text=' + wa_text_encoded"
                                        class="btn btn-success mx-2 animate__animated animate__pulse animate__infinite"
-                                       target="_blank">
+                                       target="_blank" rel="noopener noreferrer">
                                         <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
                                     </a>
                                 </div>
                             </section>
 
-                            <!-- Quick Facts Section -->
+                            <!-- QUICK FACTS -->
                             <section class="quick-facts py-5 bg-light">
-                                <div class="row text-center">
-                                    <div class="col-md-3 mb-4">
-                                        <i class="fas fa-rupee-sign fa-3x text-primary mb-2"></i>
-                                        <h4>
-                                            <span t-field="property.price" t-options='{"widget": "monetary"}'/>
-                                        </h4>
-                                        <p>Total Price</p>
-                                    </div>
-                                    <div class="col-md-3 mb-4">
-                                        <i class="fas fa-ruler-combined fa-3x text-primary mb-2"></i>
-                                        <h4>
-                                            <span t-field="property.plot_area"/>
-                                            Sq.Ft.
-                                        </h4>
-                                        <p>Plot Area</p>
-                                    </div>
-                                    <div class="col-md-3 mb-4">
-                                        <i class="fas fa-compass fa-3x text-primary mb-2"></i>
-                                        <h4>
-                                            <span t-field="property.facing_direction"/>
-                                        </h4>
-                                        <p>Facing</p>
-                                    </div>
-                                    <div class="col-md-3 mb-4">
-                                        <i class="fas fa-check-circle fa-3x text-primary mb-2"></i>
-                                        <h4>
-                                            <span t-field="property.title_status"/>
-                                        </h4>
-                                        <p>Title Status</p>
+                                <div class="container-fluid">
+                                    <div class="row text-center">
+                                        <div class="col-md-3 mb-4">
+                                            <i class="fas fa-rupee-sign fa-3x text-primary mb-2"></i>
+                                            <h4>
+                                                <span t-field="property.price"
+                                                      t-options='{"widget": "monetary"}'></span>
+                                            </h4>
+                                            <p>Total Price</p>
+                                        </div>
+                                        <div class="col-md-3 mb-4">
+                                            <i class="fas fa-ruler-combined fa-3x text-primary mb-2"></i>
+                                            <h4>
+                                                <span t-field="property.plot_area"></span>
+                                                Sq.Ft.
+                                            </h4>
+                                            <p>Plot Area</p>
+                                        </div>
+                                        <div class="col-md-3 mb-4">
+                                            <i class="fas fa-compass fa-3x text-primary mb-2"></i>
+                                            <h4>
+                                                <span t-field="property.facing_direction"></span>
+                                            </h4>
+                                            <p>Facing</p>
+                                        </div>
+                                        <div class="col-md-3 mb-4">
+                                            <i class="fas fa-check-circle fa-3x text-primary mb-2"></i>
+                                            <h4>
+                                                <span t-field="property.title_status"></span>
+                                            </h4>
+                                            <p>Title Status</p>
+                                        </div>
                                     </div>
                                 </div>
                             </section>
 
-                            <!-- Share Options Section -->
-                            <section class="social-share text-center py-5 bg-light rounded-3 my-3 shadow">
-                                <h3 class="mb-3 fw-bold fs-2 animate__animated animate__pulse">
-                                    <i class="fas fa-share-alt me-2 text-warning fa-beat-fade"></i>
-                                    Share This Premium Property &amp; Unlock Exclusive Deals!
-                                </h3>
-                                <p class="mb-4 text-muted fs-5">
-                                    Spread the word about this stunning find in Visakhapatnam 🚀
-                                </p>
-                                <div class="d-flex justify-content-center flex-wrap gap-3 animate__animated animate__pulse">
-                                    <t t-set="wa_text" t-value="
-                                        'Check out this amazing property: %s\nAddress: %s\nImage: %s\nLink: %s' % (
-                                            (property.name or '').replace('&amp;', '&amp;'),
-                                            (property.street or '').replace('&amp;', '&amp;'),
-                                            '/web/image/property.property/%s/image' % property.id if property.image else 'https://yourdomain.com/static/images/placeholder.jpg',
-                                            request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id
-                                        )
-                                    "/>
-                                    <t t-set="wa_text_encoded"
-                                       t-value="wa_text.replace(' ', '%20').replace('\n', '%0A')"/>
-                                    <a t-att-href="'https://wa.me/?text=' + wa_text_encoded"
-                                       class="btn btn-success social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
-                                       target="_blank" title="Share on WhatsApp">
-                                        <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                                    </a>
-                                    <a t-att-href="'https://www.facebook.com/sharer/sharer.php?u=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id)"
-                                       class="btn btn-primary social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
-                                       target="_blank" title="Share on Facebook">
-                                        <i class="fab fa-facebook-f me-2"></i>Facebook
-                                    </a>
-                                    <a t-att-href="'https://twitter.com/intent/tweet?url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;text=' + ('Check%20out%20this%20amazing%20property:%20' + (property.name or '').replace(' ', '%20'))"
-                                       class="btn btn-info social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
-                                       target="_blank" title="Share on Twitter">
-                                        <i class="fab fa-twitter me-2"></i>Twitter
-                                    </a>
-                                    <a t-att-href="'https://www.linkedin.com/shareArticle?mini=true&amp;url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;title=' + ((property.seo_title or property.name or '').replace(' ', '%20')) + '&amp;summary=' + ((property.seo_description or property.short_description or 'Discover this premium property in Visakhapatnam!').replace(' ', '%20'))"
-                                       class="btn btn-secondary social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
-                                       target="_blank" title="Share on LinkedIn">
-                                        <i class="fab fa-linkedin-in me-2"></i>LinkedIn
-                                    </a>
+                            <!-- SHARE -->
+                            <section class="social-share text-center bg-light">
+                                <div class="container-fluid">
+                                    <h3 class="mb-3 fw-bold fs-2 animate__animated animate__fadeInUp">
+                                        <i class="fas fa-share-alt me-2 text-warning animate__animated animate__bounce animate__infinite"></i>
+                                        Share This Premium Property &amp; Unlock Exclusive Deals!
+                                    </h3>
+                                    <p class="mb-4 text-muted fs-5">Spread the word about this stunning find in
+                                        Visakhapatnam 🚀
+                                    </p>
+
+                                    <div class="d-flex justify-content-center flex-wrap gap-3">
+                                        <t t-set="wa_text"
+                                           t-value="'Check out this amazing property: %s\nAddress: %s\nImage: %s\nLink: %s' % (property.name or '', property.street or '', '/web/image/property.property/%s/image' % property.id if property.image else 'https://yourdomain.com/static/images/placeholder.jpg', request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id)"/>
+                                        <t t-set="wa_text_encoded"
+                                           t-value="wa_text.replace(' ', '%20').replace('\n', '%0A')"/>
+
+                                        <a t-att-href="'https://wa.me/?text=' + wa_text_encoded"
+                                           class="btn btn-success social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
+                                           target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
+                                            <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                                        </a>
+
+                                        <a t-att-href="'https://www.facebook.com/sharer/sharer.php?u=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id)"
+                                           class="btn btn-primary social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
+                                           target="_blank" rel="noopener noreferrer" title="Share on Facebook">
+                                            <i class="fab fa-facebook-f me-2"></i>Facebook
+                                        </a>
+
+                                        <a t-att-href="'https://twitter.com/intent/tweet?url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;text=' + ('Check%20out%20this%20amazing%20property:%20' + (property.name or '').replace(' ', '%20'))"
+                                           class="btn btn-info social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
+                                           target="_blank" rel="noopener noreferrer" title="Share on Twitter">
+                                            <i class="fab fa-twitter me-2"></i>Twitter
+                                        </a>
+
+                                        <a t-att-href="'https://www.linkedin.com/shareArticle?mini=true&amp;url=' + (request.httprequest.url or 'https://yourdomain.com/property/%s' % property.id) + '&amp;title=' + ((property.seo_title or property.name or '').replace(' ', '%20')) + '&amp;summary=' + ((property.seo_description or property.short_description or 'Discover this premium property in Visakhapatnam!').replace(' ', '%20'))"
+                                           class="btn btn-secondary social-btn d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase rounded-pill shadow-sm animate__animated animate__fadeInUp"
+                                           target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
+                                            <i class="fab fa-linkedin-in me-2"></i>LinkedIn
+                                        </a>
+                                    </div>
                                 </div>
                             </section>
 
-                            <!-- Property Overview Section -->
+                            <!-- OVERVIEW -->
                             <section class="overview py-5">
-                                <h2 class="text-center mb-4"><i class="fas fa-home me-2"></i>Property Overview
-                                </h2>
-                                <div t-field="property.ai_key_highlights" class="mb-3"/>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <i class="fas fa-chevron-right me-2 text-primary"></i>
-                                        Road Width:
-                                        <t t-out="property.road_width or 'N/A'"/>
-                                        Feet
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-chevron-right me-2 text-primary"></i>
-                                        Infrastructure:
-                                        <t t-out="'Water, ' if property.water_connection else ''"/>
-                                        <t t-out="'Electricity, ' if property.electricity_connection else ''"/>
-                                        <t t-out="'Drainage, ' if property.drainage_facility else ''"/>
-                                        <t t-out="'Gated Community' if property.gated_community else ''"/>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-chevron-right me-2 text-primary"></i>
-                                        Category:
-                                        <t t-out="property.category_id.name or 'N/A'"/>
-                                    </li>
-                                </ul>
+                                <div class="container-fluid text-center">
+                                    <h2 class="text-center mb-4"><i class="fas fa-home me-2"></i>Property Overview
+                                    </h2>
+                                    <div t-field="property.ai_key_highlights"
+                                         class="mb-3 no-bullets-list-container"></div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                            Road Width:
+                                            <t t-out="property.road_width or 'N/A'"/>
+                                            Feet
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                            Infrastructure:
+                                            <t t-out="'Water, ' if property.water_connection else ''"/>
+                                            <t t-out="'Electricity, ' if property.electricity_connection else ''"/>
+                                            <t t-out="'Drainage, ' if property.drainage_facility else ''"/>
+                                            <t t-out="'Gated Community' if property.gated_community else ''"/>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fas fa-chevron-right me-2 text-primary"></i>
+                                            Category:
+                                            <t t-out="property.category_id.name or 'N/A'"/>
+                                        </li>
+                                    </ul>
+                                </div>
                             </section>
 
-                            <!-- Investment Snapshot Table -->
+                            <!-- INVESTMENT -->
                             <section class="investment py-5 bg-light">
-                                <h2 class="text-center mb-4"><i class="fas fa-chart-line me-2"></i>Investment Snapshot
-                                </h2>
-                                <div t-field="property.ai_investment_data" class="mb-3"/>
-                                <table class="table table-bordered table-hover">
-                                    <thead class="table-primary">
-                                        <tr>
-                                            <th>Metric</th>
-                                            <th>Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Price per Sq.Ft.</td>
-                                            <td>₹
-                                                <t t-out="'{:,}'.format(property.price_per_sqft) if property.price_per_sqft else 'N/A'"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Registration Amount</td>
-                                            <td>
-                                                <span t-field="property.registration_amount"
-                                                      t-options='{"widget": "monetary"}'/>
-                                            </td>
-                                        </tr>
-                                        <tr t-if="property.emi_available">
-                                            <td>EMI</td>
-                                            <td>Available</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="container-fluid text-center">
+                                    <h2 class="text-center mb-4"><i class="fas fa-chart-line me-2"></i>Investment
+                                        Snapshot
+                                    </h2>
+                                    <div t-field="property.ai_investment_data"
+                                         class="mb-3 no-bullets-list-container"></div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover mb-0">
+                                            <thead class="table-primary">
+                                                <tr>
+                                                    <th>Metric</th>
+                                                    <th>Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Price per Sq.Ft.</td>
+                                                    <td>₹
+                                                        <t t-out="'{:,}'.format(property.price_per_sqft) if property.price_per_sqft else 'N/A'"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Registration Amount</td>
+                                                    <td>
+                                                        <span t-field="property.registration_amount"
+                                                              t-options='{"widget":"monetary"}'></span>
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="property.emi_available">
+                                                    <td>EMI</td>
+                                                    <td>Available</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </section>
 
-                            <!-- Description & Nearby Places -->
+                            <!-- DESCRIPTION & NEARBY -->
                             <section class="description-facilities py-5">
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <h3><i class="fas fa-info-circle me-2"></i>Property Description
-                                        </h3>
-                                        <div t-field="property.detailed_description"
-                                             t-att-class="'' if property.detailed_description else 'text-muted'">No
-                                            description available.
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <h3><i class="fas fa-info-circle me-2"></i>Property Description
+                                            </h3>
+                                            <div t-field="property.detailed_description"
+                                                 t-att-class="'' if property.detailed_description else 'text-muted'">No
+                                                description available.
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <h3><i class="fas fa-map-signs me-2"></i>Nearby Places
-                                        </h3>
-                                        <div t-field="property.ai_nearby_places"
-                                             t-att-class="'' if property.ai_nearby_places else 'text-muted'">No nearby
-                                            places available.
+                                        <div class="col-md-6 mb-4">
+                                            <h3><i class="fas fa-map-signs me-2"></i>Nearby Places
+                                            </h3>
+                                            <div t-field="property.ai_nearby_places"
+                                                 t-att-class="'' if property.ai_nearby_places else 'text-muted'">No
+                                                nearby places available.
+                                            </div>
+                                            <ul class="list-group list-group-flush mt-3">
+                                                <li class="list-group-item"><i
+                                                        class="fas fa-chevron-right me-2 text-primary"></i>Landmarks:
+                                                    <t t-out="property.nearby_landmarks or 'N/A'"/>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <i class="fas fa-chevron-right me-2 text-primary"></i>
-                                                Landmarks:
-                                                <t t-out="property.nearby_landmarks or 'N/A'"/>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </div>
                             </section>
 
-                            <!-- Unique Selling Points -->
+                            <!-- USP -->
                             <section class="usp py-5 bg-light">
-                                <h2 class="text-center mb-4"><i class="fas fa-star me-2"></i>Why Buy This Property?
-                                </h2>
-                                <div t-field="property.ai_unique_features"
-                                     t-att-class="'' if property.ai_unique_features else 'text-muted'">No unique
-                                    features available.
+                                <div class="container-fluid">
+                                    <h2 class="text-center mb-4"><i class="fas fa-star me-2"></i>Why Buy This Property?
+                                    </h2>
+                                    <div t-field="property.ai_unique_features"
+                                         t-att-class="'' if property.ai_unique_features else 'text-muted'">No unique
+                                        features available.
+                                    </div>
                                 </div>
                             </section>
 
-                            <!-- Contact Section -->
+                            <!-- CONTACT -->
                             <section class="contact py-5 text-center">
-                                <h2><i class="fas fa-envelope me-2"></i>Get in Touch
-                                </h2>
-                                <p>
-                                    Contact:
-                                    <t t-out="property.contact_name or 'Our Team'"/>
-                                    |
-                                    <t t-out="property.contact_phone or 'N/A'"/>
-                                    |
-                                    <a t-att-href="'mailto:%s' % property.contact_email if property.contact_email else '#'"
-                                       t-att-class="'text-muted' if not property.contact_email else ''">
-                                        <t t-out="property.contact_email or 'N/A'"/>
+                                <div class="container-fluid">
+                                    <h2><i class="fas fa-envelope me-2"></i>Get in Touch
+                                    </h2>
+                                    <p>
+                                        Contact:
+                                        <t t-out="property.contact_name or 'Our Team'"/>
+                                        |
+                                        <t t-out="property.contact_phone or 'N/A'"/>
+                                        |
+                                        <a t-att-href="'mailto:%s' % property.contact_email if property.contact_email else '#'"
+                                           t-att-class="'text-muted' if not property.contact_email else ''">
+                                            <t t-out="property.contact_email or 'N/A'"/>
+                                        </a>
+                                    </p>
+                                    <a t-att-href="'/contact?property_id=%s' % property.id"
+                                       class="btn btn-primary btn-lg">
+                                        <i class="fas fa-phone me-2"></i>Schedule a Site Visit
                                     </a>
-                                </p>
-                                <a t-att-href="'/contact?property_id=%s' % property.id" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-phone me-2"></i>Schedule a Site Visit
-                                </a>
+                                </div>
                             </section>
 
-                            <!-- Recommendations Section -->
+                            <!-- RECOMMENDATIONS -->
                             <section class="recommendations py-5 bg-light">
-                                <h2 class="text-center mb-4">
-                                    <i class="fas fa-heart me-2 text-danger"></i>Properties Recommended For You
-                                </h2>
+                                <div class="container-fluid">
+                                    <h2 class="text-center mb-4">
+                                        <i class="fas fa-heart me-2 text-danger"></i>
+                                        Properties Recommended For You
+                                    </h2>
 
-                                <!-- Price ranges -->
-                                <t t-set="price_range_min" t-value="property.price * 0.8"/>
-                                <t t-set="price_range_max" t-value="property.price * 1.2"/>
+                                    <!-- Price ranges -->
+                                    <t t-set="price_range_min" t-value="property.price * 0.8"/>
+                                    <t t-set="price_range_max" t-value="property.price * 1.2"/>
 
-                                <!-- Group 1: Similar Price & Type -->
-                                <t t-set="group1_properties" t-value="request.env['property.property'].sudo().search([
-        ('id', '!=', property.id),
-        ('category_id', '=', property.category_id.id),
-        ('price', '&gt;=', price_range_min),
-        ('price', '&lt;=', price_range_max),
-        ('is_published', '=', True)
-    ], limit=3, order='price')"/>
+                                    <!-- Group queries (XML-escaped) -->
+                                    <t t-set="group1_properties"
+                                       t-value="request.env['property.property'].sudo().search([
+               ('id','!=',property.id),
+               ('category_id','=',property.category_id.id),
+               ('price','&gt;=',price_range_min),
+               ('price','&lt;=',price_range_max),
+               ('is_published','=',True)
+           ], limit=3, order='price')"/>
+                                    <t t-set="group2_properties"
+                                       t-value="request.env['property.property'].sudo().search([
+               ('id','!=',property.id),
+               ('category_id','=',property.category_id.id),
+               '|',('price','&lt;',price_range_min),('price','&gt;',price_range_max),
+               ('is_published','=',True)
+           ], limit=2, order='price DESC')"/>
+                                    <t t-set="group3_properties"
+                                       t-value="request.env['property.property'].sudo().search([
+               ('id','!=',property.id),
+               ('is_published','=',True)
+           ], limit=2, order='views DESC, create_date DESC')"/>
 
-                                <!-- Group 2: Same Category but different price -->
-                                <t t-set="group2_properties" t-value="request.env['property.property'].sudo().search([
-        ('id', '!=', property.id),
-        ('category_id', '=', property.category_id.id),
-        '|',
-        ('price', '&lt;', price_range_min),
-        ('price', '&gt;', price_range_max),
-        ('is_published', '=', True)
-    ], limit=2, order='price DESC')"/>
+                                    <!-- Combine lists -->
+                                    <t t-set="all_recommended"
+                                       t-value="list(group1_properties) + list(group2_properties) + list(group3_properties)"/>
+                                    <t t-set="final_recommendations" t-value="all_recommended[:7]"/>
 
-                                <!-- Group 3: Popular Picks -->
-                                <t t-set="group3_properties" t-value="request.env['property.property'].sudo().search([
-        ('id', '!=', property.id),
-        ('is_published', '=', True)
-    ], limit=2, order='views DESC, create_date DESC')"/>
-
-                                <!-- Combine -->
-                                <t t-set="all_recommended"
-                                   t-value="list(group1_properties) + list(group2_properties) + list(group3_properties)"/>
-                                <t t-set="final_recommendations" t-value="all_recommended[:7]"/>
-
-                                <!-- If recommendations -->
-                                <t t-if="final_recommendations">
-                                    <!-- Filter buttons -->
-                                    <div class="text-center mb-4">
-                                        <div class="btn-group" role="group" aria-label="Recommendation Categories">
-                                            <button type="button" class="btn btn-outline-primary active"
-                                                    data-filter="all">
-                                                All Recommendations
-                                            </button>
-                                            <button type="button" class="btn btn-outline-success" data-filter="similar">
-                                                Similar Price &amp; Type
-                                            </button>
-                                            <button type="button" class="btn btn-outline-warning"
-                                                    data-filter="category">
-                                                Same Category
-                                            </button>
-                                            <button type="button" class="btn btn-outline-info" data-filter="popular">
-                                                Popular Picks
-                                            </button>
+                                    <t t-if="final_recommendations">
+                                        <!-- Filter buttons -->
+                                        <div class="text-center mb-4">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-outline-primary active"
+                                                        data-filter="all">
+                                                    All Recommendations
+                                                </button>
+                                                <button type="button" class="btn btn-outline-success"
+                                                        data-filter="similar">
+                                                    Similar Price &amp; Type
+                                                </button>
+                                                <button type="button" class="btn btn-outline-warning"
+                                                        data-filter="category">
+                                                    Same Category
+                                                </button>
+                                                <button type="button" class="btn btn-outline-info"
+                                                        data-filter="popular">
+                                                    Popular Picks
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Cards -->
-                                    <div class="row g-4" id="recommendationsContainer">
-                                        <t t-foreach="final_recommendations" t-as="rec_property">
-                                            <t t-set="rec_index" t-value="rec_property_index"/>
-                                            <t t-set="group1_len" t-value="len(group1_properties)"/>
-                                            <t t-set="group2_len" t-value="len(group2_properties)"/>
-                                            <t t-set="group_class"
-                                               t-value="'similar' if rec_index &lt; group1_len else 'category' if rec_index &lt; (group1_len + group2_len) else 'popular'"/>
-                                            <t t-set="group_label"
-                                               t-value="'Similar Price' if group_class == 'similar' else 'Same Category' if group_class == 'category' else 'Popular Pick'"/>
+                                        <!-- Flexbox cards container -->
+                                        <div id="recommendationsContainer"
+                                             class="d-flex flex-wrap justify-content-center gap-4">
+                                            <t t-foreach="final_recommendations" t-as="rec">
+                                                <t t-set="group_class"
+                                                   t-value="'similar' if rec in group1_properties else 'category' if rec in group2_properties else 'popular'"/>
+                                                <div t-att-class="'recommendation-card ' + group_class">
+                                                    <div class="card h-100 shadow-sm d-flex flex-column">
+                                                        <div class="position-relative">
+                                                            <img t-att-src="'/web/image/property.property/%s/image' % rec.id"
+                                                                 class="card-img-top" alt="Property Image"
+                                                                 style="width:100%; max-height:180px; object-fit:cover;"/>
+                                                            <span class="badge bg-primary position-absolute top-0 end-0 m-2">
+                                                                <t t-out="rec.category_id.name"/>
+                                                            </span>
+                                                            <span t-att-class="'badge position-absolute top-0 start-0 m-2 ' +
+                                    ('bg-success' if group_class=='similar' else
+                                     'bg-warning text-dark' if group_class=='category' else
+                                     'bg-info')">
+                                                                <t t-out="
+                                        'Similar Price' if group_class=='similar' else
+                                        'Same Category' if group_class=='category' else
+                                        'Popular Pick'"/>
+                                                            </span>
 
-                                            <div t-att-class="'col-lg-3 col-md-4 col-sm-6 recommendation-card ' + group_class"
-                                                 t-att-data-group="group_class">
-                                                <div class="card h-100 shadow-sm d-flex flex-column">
-                                                    <!-- Image + badges -->
-                                                    <div class="position-relative">
-                                                        <img t-att-src="'/web/image/property.property/%s/image' % rec_property.id"
-                                                             class="card-img-top" alt="Property Image"/>
+                                                            <t t-set="price_diff" t-value="rec.price - property.price"/>
+                                                            <span t-att-class="'badge position-absolute bottom-0 start-0 m-2 ' +
+('bg-success' if price_diff == 0 else
+ 'bg-danger' if price_diff &gt; property.price * 0.5 else
+ 'bg-warning text-dark')">
 
-                                                        <!-- Category badge -->
-                                                        <span class="badge bg-primary position-absolute top-0 end-0 m-2">
-                                                            <t t-out="rec_property.category_id.name"/>
-                                                        </span>
+                                                                <i t-att-class="'fas ' +
+    ('fa-arrow-down' if price_diff &lt; 0 else
+     'fa-arrow-up' if price_diff &gt; 0 else
+     'fa-equals')"></i>
 
-                                                        <!-- Group badge -->
-                                                        <span t-att-class="'badge position-absolute top-0 start-0 m-2 ' + ('bg-success' if group_class == 'similar' else 'bg-warning text-dark' if group_class == 'category' else 'bg-info')">
-                                                            <t t-out="group_label"/>
-                                                        </span>
-
-                                                        <!-- Price difference badge -->
-                                                        <t t-set="price_diff"
-                                                           t-value="rec_property.price - property.price"/>
-                                                        <span t-att-class="'badge position-absolute bottom-0 start-0 m-2 ' + ('bg-success' if price_diff &lt;= 0 else 'bg-danger' if price_diff &gt; property.price * 0.5 else 'bg-warning text-dark')">
-                                                            <i t-att-class="'fas ' + ('fa-arrow-down' if price_diff &lt; 0 else 'fa-arrow-up' if price_diff &gt; 0 else 'fa-equals')"></i>
-                                                            <t t-if="price_diff != 0">
-                                                                ₹
-                                                                <t t-out="'{:,}'.format(abs(int(price_diff)))"/>
-                                                            </t>
-                                                            <t t-else="">Same Price</t>
-                                                        </span>
-                                                    </div>
-
-                                                    <!-- Card body -->
-                                                    <div class="card-body d-flex flex-column">
-                                                        <h6 class="card-title fw-bold mb-2">
-                                                            <t t-out="rec_property.name"/>
-                                                        </h6>
-                                                        <p class="card-text text-muted small mb-2">
-                                                            <i class="fas fa-map-marker-alt me-1"></i>
-                                                            <t t-out="rec_property.street or 'Location'"/>
-                                                            <t t-if="rec_property.city">,
-                                                                <t t-out="rec_property.city"/>
-                                                            </t>
-                                                        </p>
-
-                                                        <!-- Info grid -->
-                                                        <div class="row text-center small mb-3">
-                                                            <div class="col border-end">
-                                                                <div class="text-muted">Price</div>
-                                                                <div class="fw-bold text-primary">
-                                                                    ₹
-                                                                    <t t-out="'{:.1f}L'.format(rec_property.price/100000) if rec_property.price &gt;= 100000 else '{:,}'.format(int(rec_property.price))"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col border-end">
-                                                                <div class="text-muted">Area</div>
-                                                                <div class="fw-bold">
-                                                                    <t t-out="rec_property.plot_area or 'N/A'"/>
-                                                                    <t t-if="rec_property.plot_area">Sq.Ft</t>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="text-muted">Facing</div>
-                                                                <div class="fw-bold">
-                                                                    <t t-out="rec_property.facing_direction or 'N/A'"/>
-                                                                </div>
-                                                            </div>
+                                                                <t t-if="price_diff!=0">₹
+                                                                    <t t-out="'{:,}'.format(abs(int(price_diff)))"/>
+                                                                </t>
+                                                                <t t-else="">Same Price</t>
+                                                            </span>
                                                         </div>
 
-                                                        <!-- Buttons at bottom -->
-                                                        <div class="mt-auto">
-                                                            <div class="d-flex gap-2">
-                                                                <a t-att-href="'/property/%s' % rec_property.id"
-                                                                   class="btn btn-outline-primary btn-sm flex-fill">
-                                                                    <i class="fas fa-eye me-1"></i>View
-                                                                </a>
-                                                                <a t-att-href="'tel:%s' % (rec_property.contact_phone or '8187023634')"
-                                                                   class="btn btn-success btn-sm" title="Call">
-                                                                    <i class="fas fa-phone"></i>
-                                                                </a>
+                                                        <div class="card-body d-flex flex-column">
+                                                            <h6 class="card-title fw-bold mb-2">
+                                                                <t t-out="rec.name"/>
+                                                            </h6>
+                                                            <p class="card-text text-muted small mb-2">
+                                                                <i class="fas fa-map-marker-alt me-1"></i>
+                                                                <t t-out="rec.street or 'Location'"/>
+                                                                <t t-if="rec.city">,
+                                                                    <t t-out="rec.city"/>
+                                                                </t>
+                                                            </p>
+                                                            <div class="row text-center small mb-3">
+                                                                <div class="col border-end">
+                                                                    <div class="text-muted">Price</div>
+                                                                    <div class="fw-bold text-primary">₹
+                                                                        <t t-out="
+                                                '{:.1f}L'.format(rec.price/100000)
+                                                if rec.price>=100000 else
+                                                '{:,}'.format(int(rec.price))"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col border-end">
+                                                                    <div class="text-muted">Area</div>
+                                                                    <div class="fw-bold">
+                                                                        <t t-out="rec.plot_area or 'N/A'"/>
+                                                                        Sq.Ft
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="text-muted">Facing</div>
+                                                                    <div class="fw-bold">
+                                                                        <t t-out="rec.facing_direction or 'N/A'"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mt-auto">
+                                                                <div class="d-flex gap-2">
+                                                                    <a t-att-href="'/property/%s' % rec.id"
+                                                                       class="btn btn-outline-primary btn-sm flex-fill">
+                                                                        <i class="fas fa-eye me-1"></i>View
+                                                                    </a>
+                                                                    <a t-att-href="'tel:%s' % (rec.contact_phone or '')"
+                                                                       class="btn btn-success btn-sm">
+                                                                        <i class="fas fa-phone"></i>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </t>
-                                    </div>
+                                            </t>
+                                        </div>
 
-                                    <!-- Explore all -->
-                                    <div class="text-center mt-4">
-                                        <a href="/" class="btn btn-primary btn-lg">
-                                            <i class="fas fa-search me-2"></i>Explore All Properties
-                                        </a>
-                                    </div>
-                                </t>
+                                        <div class="text-center mt-4">
+                                            <a href="/" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-search me-2"></i>Explore All Properties
+                                            </a>
+                                        </div>
+                                    </t>
 
-                                <!-- Else: no recommendations -->
-                                <t t-else="">
-                                    <div class="text-center py-5">
-                                        <i class="fas fa-search fa-4x text-muted mb-3"></i>
-                                        <h4 class="text-muted">No recommendations available</h4>
-                                        <p class="text-muted">Check out our complete property listings</p>
-                                        <a href="/" class="btn btn-primary btn-lg">
-                                            <i class="fas fa-list me-2"></i>Browse All Properties
-                                        </a>
-                                    </div>
-                                </t>
+                                    <t t-else="">
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                                            <h4 class="text-muted">No recommendations available</h4>
+                                            <p class="text-muted">Browse our complete listings</p>
+                                            <a href="/" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-list me-2"></i>Browse All Properties
+                                            </a>
+                                        </div>
+                                    </t>
+                                </div>
                             </section>
 
                         </div>
@@ -457,8 +474,8 @@
                 </main>
             </div>
 
-            <!-- Scripts -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"/>
+            <!-- Scripts (close tag required in XML) -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </t>
     </template>
 </odoo>
