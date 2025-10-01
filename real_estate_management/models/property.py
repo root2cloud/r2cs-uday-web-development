@@ -17,7 +17,6 @@ class Property(models.Model):
     detailed_description = fields.Html(string='Detailed Description')
     category_id = fields.Many2one('property.category', string='Category')
 
-
     price = fields.Monetary(string='Total Price', currency_field='currency_id')
     plot_area = fields.Float(string='Plot Area (Sq.Ft)')
     price_per_sqft = fields.Float(string='Price per Sq.Ft (₹)', compute='_compute_price_per_sqft', store=True)
@@ -108,7 +107,7 @@ class Property(models.Model):
     @api.depends('price', 'plot_area')
     def _compute_price_per_sqft(self):
         for rec in self:
-            rec.price_per_sqft = rec.price / rec.plot_area if rec.plot_area else 0
+            rec.price_per_sqft = round(rec.price / rec.plot_area, 2) if rec.plot_area else 0
 
     @api.depends('price', 'registration_charges')
     def _compute_registration_amount(self):
@@ -177,17 +176,17 @@ class Property(models.Model):
             return
 
         _logger.info(f"Generating AI content for property: {self.name}")
-        location = f"{self.street}, {self.city}"
 
         prompt = (
-            f"Generate concise real estate data for '{self.name}' in {location}. "
+            f"Generate factual real estate data for '{self.name}' located at {self.street}, {self.city}, {self.state_id.name or ''}, {self.zip_code}. "
             f"Price: ₹{self.price:,}, Area: {self.plot_area} sqft, Category: {self.category_id.name or 'Plot'}. "
-            "Return JSON with these keys (each max 80 words, use bullet points): "
-            "'key_highlights' (3 main property features with specific data), "
-            "'investment_data' (3 financial benefits with percentages/timelines), "
-            "'nearby_places' (specific distances to 4 key locations), "
-            "'unique_features' (3 standout features that make this property special). "
-            "Focus on facts, numbers, distances. Avoid generic marketing words."
+            "Return a JSON object with the following keys (each value a bullet-point list, max 80 words): "
+            "'key_highlights' (3 main property features with exact data), "
+            "'investment_data' (3 exact financial benefits with numbers or percentages), "
+            "'nearby_places' (actual distances to 4 key nearby locations), "
+            "'unique_features' (3 standout factual features that make this property unique), "
+            "'lifestyle_benefits' (3 precise lifestyle benefits with real distances or details). "
+            "Focus solely on actual data sourced from property records, measurements, and verified local info. Do not include generic marketing text or assumptions."
         )
 
         headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
@@ -195,7 +194,7 @@ class Property(models.Model):
             'model': 'gpt-4o-mini',
             'messages': [
                 {'role': 'system',
-                 'content': 'You are a real estate data analyst. Provide specific, factual information with numbers.'},
+                 'content': '"You are a real estate data analyst. Provide only factual data sourced from property records,""measurements, and verified local information. Do not include any generic marketing language or assumptions."'},
                 {'role': 'user', 'content': prompt}
             ],
             'max_tokens': 400,

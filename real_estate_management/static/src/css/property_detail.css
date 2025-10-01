@@ -31,7 +31,7 @@ body {
 }
 
 .hero-banner img {
-  width: 100%;
+  width: 80vw;
   object-fit: cover;
   filter: brightness(70%);
 }
@@ -41,16 +41,37 @@ body {
     height: 40vh;
   }
 }
-
 /* ====================================
    Sticky CTA (always visible)
 ==================================== */
-.sticky-cta {
-  z-index: 1000;
+.sticky-cta .btn {
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
 }
 
-.sticky-cta .btn {
-  margin: 0 .5rem;
+/* Light button hover effect */
+.sticky-cta .btn-light:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+/* Green button hover (WhatsApp) */
+.sticky-cta .btn-success:hover {
+    background-color: #128C7E; /* Darker WhatsApp green */
+}
+
+/* Responsive adjustments on small screens */
+@media (max-width: 576px) {
+    .sticky-cta {
+        flex-direction: column;
+        padding: 0.75rem 0;
+        gap: 0.5rem;
+    }
+    .sticky-cta .btn {
+        width: 90%;
+        margin: 0 auto;
+    }
 }
 
 /* ====================================
