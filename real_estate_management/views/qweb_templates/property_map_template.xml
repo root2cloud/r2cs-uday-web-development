@@ -2,12 +2,23 @@
 <odoo>
     <template id="property_map_template" name="Property Map Page">
         <t t-call="website.layout">
+            <t t-set="head">
+                <link rel="stylesheet" href="/real_estate_management/static/src/css/property_map.css"/>
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+            </t>
+
             <t t-set="title">Explore Premium Properties in Vishakhapatnam</t>
             <div id="wrap">
                 <main class="container-fluid">
                     <div class="row justify-content-center">
                         <div class="col-12 text-center">
-                            <h1>🏡 Explore Our Exclusive Property Showcase</h1>
+
+                            <h1>
+                                <i class="fas fa-building" style="color: green;"></i>
+                                Explore Our Exclusive Property Showcase
+                            </h1>
                             <h2 style="font-size:1.8rem;color:#4a5568;font-weight:400;margin-bottom:25px;">
                                 Premium Properties in Vishakhapatnam
                             </h2>
@@ -39,10 +50,9 @@
                 </main>
             </div>
             <div id="property-data" t-att-data-properties="properties_json" style="display:none;"/>
-            <link rel="stylesheet" href="/real_estate_management/static/src/css/property_map.css"/>
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
             <script defer="defer" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"/>
             <script defer="defer" src="/real_estate_management/static/src/js/property_map.js"/>
+
         </t>
     </template>
 </odoo>

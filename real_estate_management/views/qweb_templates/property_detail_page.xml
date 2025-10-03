@@ -19,19 +19,19 @@
                     <div class="row justify-content-center">
                         <div class="col-12">
                             <!-- HERO: Carousel + Title                                          -->
-                            <section class="hero-banner position-relative overflow-hidden text-white text-center">
-                                <div id="propertyCarousel" class="carousel slide h-100">
-                                    <div class="carousel-inner h-100">
-                                        <div class="carousel-item active h-100">
+                            <section class="hero-banner position-relative overflow-hidden text-white text-center w-100">
+                                <div id="propertyCarousel" class="carousel slide h-100 w-100">
+                                    <div class="carousel-inner h-100 w-100">
+                                        <div class="carousel-item active h-100 w-100">
                                             <img t-att-src="'/web/image/property.property/%s/image' % property.id"
                                                  alt="Cover Image"
-                                                 class="d-block h-100"/>
+                                                 class="d-block h-100 w-100" style="object-fit: contain;"/>
                                         </div>
                                         <t t-foreach="property.gallery_image_ids" t-as="img">
-                                            <div class="carousel-item h-100">
+                                            <div class="carousel-item h-100 w-100" style="object-fit: cover;">
                                                 <img t-att-src="'/web/image/ir.attachment/%s/datas' % img.id"
                                                      alt="Gallery Image"
-                                                     class="d-block w-100 h-100" style="object-fit: cover;"/>
+                                                     class="d-block w-100 h-100" style="object-fit: contain;"/>
                                             </div>
                                         </t>
                                     </div>
@@ -174,11 +174,7 @@
                                             <t t-out="'Drainage, ' if property.drainage_facility else ''"/>
                                             <t t-out="'Gated Community' if property.gated_community else ''"/>
                                         </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-chevron-right me-2 text-primary"></i>
-                                            Category:
-                                            <t t-out="property.category_id.name or 'N/A'"/>
-                                        </li>
+
                                     </ul>
                                 </div>
                             </section>
@@ -282,7 +278,7 @@
                                             <t t-out="property.contact_email or 'N/A'"/>
                                         </a>
                                     </p>
-                                    <a t-att-href="'/contact?property_id=%s' % property.id"
+                                    <a t-att-href="'/contactus'"
                                        class="btn btn-primary btn-lg">
                                         <i class="fas fa-phone me-2"></i>Schedule a Site Visit
                                     </a>
@@ -321,7 +317,7 @@
                                        t-value="request.env['property.property'].sudo().search([
                ('id','!=',property.id),
                ('is_published','=',True)
-           ], limit=2, order='views DESC, create_date DESC')"/>
+           ], limit=2)"/>
 
                                     <!-- Combine lists -->
                                     <t t-set="all_recommended_list"

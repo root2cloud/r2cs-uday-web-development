@@ -31,7 +31,6 @@ body {
 }
 
 .hero-banner img {
-  width: 80vw;
   object-fit: cover;
   filter: brightness(70%);
 }
