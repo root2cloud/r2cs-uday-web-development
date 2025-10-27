@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.getElementById('propertyMap');
         if (!el || !properties.length) return;
 
-        const map = L.map(el).setView([17.6868, 83.218], 12);
+        const map = L.map(el);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19,
@@ -62,8 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="property-location">📍 ${p.full_address}</div>
                     <div class="property-price">${price}</div>
                     <div class="property-details">
-                      ${p.bedrooms?`<div class="detail-item">🛏️ ${p.bedrooms} BHK</div>`:''}
-                      ${p.area?`<div class="detail-item">📐 ${p.area} sqft</div>`:''}
+                      ${p.area?`<div class="detail-item">📐 ${p.plot_area} sqft</div>`:''}
                     </div>
                     <div class="action-buttons">
                       <a href="/property/${p.id}" class="btn-sm btn-primary">View Details</a>

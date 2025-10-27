@@ -2,6 +2,8 @@
 <odoo>
     <template id="property_map_template" name="Property Map Page">
         <t t-call="website.layout">
+
+            <!-- HEAD SECTION -->
             <t t-set="head">
                 <link rel="stylesheet" href="/real_estate_management/static/src/css/property_map.css"/>
                 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -9,49 +11,105 @@
                       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
             </t>
 
-            <t t-set="title">Explore Premium Properties in Vishakhapatnam</t>
+            <!-- PAGE TITLE SECTION -->
+            <t t-set="title">Explore Premium Properties</t>
+
             <div id="wrap">
                 <main class="container-fluid">
-                    <div class="row justify-content-center">
-                        <div class="col-12 text-center">
 
+                    <!-- HERO HEADER & CITY FILTER SECTION -->
+                    <section id="hero-header" class="row justify-content-center">
+                        <div class="col-12 text-center">
                             <h1>
-                                <i class="fas fa-building" style="color: green;"></i>
                                 Explore Our Exclusive Property Showcase
                             </h1>
-                            <h2 style="font-size:1.8rem;color:#4a5568;font-weight:400;margin-bottom:25px;">
-                                Premium Properties in Vishakhapatnam
+
+                            <!-- CITY FILTER  -->
+                            <div class="city-filter-container">
+                                <form method="get" action="/" id="cityFilterForm">
+                                    <label for="citySelect">
+                                        <i class="fas fa-map-marker-alt" style="color:#ea580c;"></i>
+                                        Select City:
+                                    </label>
+                                    <select name="city" id="citySelect" class="form-select"
+                                            onchange="this.form.submit()">
+                                        <option value="">All Cities</option>
+                                        <t t-foreach="city_list" t-as="city">
+                                            <option t-att-value="city"
+                                                    t-att-selected="'selected' if city==selected_city else None">
+                                                <t t-esc="city"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </form>
+                            </div>
+
+                            <!-- DYNAMIC SUBTITLE -->
+                            <h2>
+                                Premium Properties
+                                <t t-if="selected_city">
+                                    in
+                                    <span>
+                                        <t t-esc="selected_city"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    in All Cities
+                                </t>
                             </h2>
+                        </div>
+                    </section>
+
+
+                    <!-- PROPERTY COUNT SECTION -->
+                    <section id="property-count" class="row justify-content-center">
+                        <div class="col-12 text-center">
                             <div class="property-count">
                                 🎯
                                 <span t-out="property_count"/>
                                 Exclusive Properties Available
                             </div>
-                            <div id="propertyMap"></div>
-                            <div id="category-legend" t-att-data-colors="category_colors"/>
+                        </div>
+                    </section>
 
-                            <div id="property-info" class="mt-4">
+                    <!-- MAP DISPLAY SECTION -->
+                    <section id="map-display" class="row">
+                        <div class="col-12">
+                            <div id="category-legend" t-att-data-colors="category_colors"/>
+                            <div class="col-12 text-center mt-4" id="property-info">
                                 <p>✨ Hover over pins to explore amazing properties with photos and details!</p>
                             </div>
-                            <!-- Iframe for additional content -->
-                            <div class="mt-4 text-center">
-                                <iframe src="https://www.youtube.com/embed/NwIWjiuyyZU?autoplay=1"
-                                        style="width:100%;height:400px;border:0;margin-top:20px;"
-                                        title="Real Estate Business in Visakhapatnam"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen="true"
-                                >
-                                </iframe>
-
-                            </div>
+                            <div id="propertyMap" style="height:600px;"></div>
                         </div>
-                    </div>
+                    </section>
+
+
+                    <!-- VIDEO IFRAME SECTION -->
+                    <!--                    <section id="video-iframe" class="row">-->
+                    <!--                        <div class="col-12 text-center mt-4">-->
+                    <!--                            <iframe src="https://www.youtube.com/embed/NwIWjiuyyZU?autoplay=1"-->
+                    <!--                                    style="width:100%;height:400px;border:0;margin-top:20px;"-->
+                    <!--                                    title="Real Estate Business in Vishakhapatnam"-->
+                    <!--                                    frameborder="0"-->
+                    <!--                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
+                    <!--                                    allowfullscreen="true">-->
+                    <!--                            </iframe>-->
+                    <!--                        </div>-->
+                    <!--                    </section>-->
+
                 </main>
             </div>
-            <div id="property-data" t-att-data-properties="properties_json" style="display:none;"/>
-            <script defer="defer" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"/>
-            <script defer="defer" src="/real_estate_management/static/src/js/property_map.js"/>
+
+            <!-- HIDDEN DATA SECTION -->
+            <section id="hidden-data">
+                <div id="property-data" t-att-data-properties="properties_json"/>
+            </section>
+
+            <!-- SCRIPTS SECTION -->
+            <section id="scripts">
+                <script defer="defer" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"/>
+                <script defer="defer" src="/real_estate_management/static/src/js/property_map.js"/>
+            </section>
 
         </t>
     </template>

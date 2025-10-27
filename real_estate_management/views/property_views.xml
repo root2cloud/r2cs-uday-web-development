@@ -69,11 +69,11 @@
                         <!-- Page 2: Location -->
                         <page string="Location">
                             <group>
+                                <field name="country_id" required="1"/>
+                                <field name="state_id" required="1"/>
+                                <field name="city" required="1"/>
+                                <field name="zip_code" />
                                 <field name="street"/>
-                                <field name="city" required="1" readonly="1" default="Visakhapatnam"/>
-                                <field name="zip_code"/>
-                                <field name="state_id" readonly="1"/>
-                                <field name="country_id" readonly="1"/>
                             </group>
                             <group string="Geolocation" colspan="2">
                                 <field name="latitude" readonly="1"/>

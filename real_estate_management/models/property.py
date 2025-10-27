@@ -42,11 +42,12 @@ class Property(models.Model):
     # Address
     street = fields.Char(string='Street')
     street2 = fields.Char(string='Street 2')
-    city = fields.Char(string='City', required=True, default='Visakhapatnam')
+    city = fields.Char(string='City', required=True)
     zip_code = fields.Char(string='ZIP')
-    state_id = fields.Many2one('res.country.state', string='State', readonly=True,
-                               default=lambda self: self.env['res.country.state']
-                               .search([('name', '=', 'Andhra Pradesh')], limit=1).id)
+    state_id = fields.Many2one(
+        'res.country.state', string='State',
+        domain="[('country_id','=', country_id)]"
+    )
     country_id = fields.Many2one('res.country', string='Country', readonly=True,
                                  default=lambda self: self.env.company.country_id.id, store=True)
 

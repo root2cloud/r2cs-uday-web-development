@@ -13,20 +13,32 @@ class RealEstateController(http.Controller):
 
     @http.route('/', type='http', auth='public', website=True)
     def property_map(self, **kwargs):
+
         # Fetch published properties from database
         Property = request.env['property.property'].sudo()
-        properties = Property.search([
+        # Get the selected city from URL parameters (if any)
+        selected_city = kwargs.get('city', '')
+        all_properties = Property.search([('is_published', '=', True)])
+        city_list = sorted(list(set([p.city for p in all_properties if p.city])))
+        # Build the search domain with city filter if selected
+        search_domain = [
             ('is_published', '=', True),
             ('latitude', '!=', False),
             ('longitude', '!=', False)
-        ])
+        ]
+        # Add city filter if a city is selected
+        if selected_city:
+            search_domain.append(('city', '=', selected_city))
+
+        # Fetch properties based on the search domain
+        properties = Property.search(search_domain)
 
         # Define a reusable color palette
         palette = ["#059669", "#dc2626", "#7c3aed", "#ea580c", "#2563eb", "#d97706", "#0891b2", "#9333ea"]
         category_colors = {}
         idx = 0
 
-        # Build comprehensive data for JavaScript hover cards
+        # Build comprehensive data
         property_data = []
         for prop in properties:
             if prop.latitude and prop.longitude:
@@ -34,7 +46,6 @@ class RealEstateController(http.Controller):
                 if cat not in category_colors:
                     category_colors[cat] = palette[idx % len(palette)]
                     idx += 1
-                    # Get property image URL
 
                 image_url = None
                 if prop.image:
@@ -49,14 +60,12 @@ class RealEstateController(http.Controller):
                 full_address = ", ".join(filter(None, [prop.street, prop.city, prop.zip_code]))
 
                 # Build property data
-                # Correct
                 property_data.append({
                     'id': prop.id,
                     'name': prop.name or '',
                     'latitude': float(prop.latitude),
                     'longitude': float(prop.longitude),
                     'street': prop.street or '',
-                    'street2': prop.street2 or '',
                     'city': prop.city or '',
                     'zip_code': prop.zip_code or '',
                     'price': float(prop.price) if prop.price else 0,
@@ -77,6 +86,8 @@ class RealEstateController(http.Controller):
             'property_count': len(property_data),
             'properties_json': json_scriptsafe.dumps(property_data) if property_data else '[]',
             'category_colors': json_scriptsafe.dumps(category_colors),
+            'city_list': city_list,
+            'selected_city': selected_city,
 
         })
 
