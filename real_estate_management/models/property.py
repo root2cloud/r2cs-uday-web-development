@@ -16,6 +16,7 @@ class Property(models.Model):
     short_description = fields.Char(string='Short Description')
     detailed_description = fields.Html(string='Detailed Description')
     category_id = fields.Many2one('property.category', string='Category')
+    is_featured = fields.Boolean(string='Featured Property', default=False)
 
     price = fields.Monetary(string='Total Price', currency_field='currency_id')
     plot_area = fields.Float(string='Plot Area (Sq.Ft)')

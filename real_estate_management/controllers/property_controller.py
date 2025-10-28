@@ -33,6 +33,12 @@ class RealEstateController(http.Controller):
         # Fetch properties based on the search domain
         properties = Property.search(search_domain)
 
+        # Fetch featured properties for selected city, limit to 5
+        featured_domain = [('is_published', '=', True), ('is_featured', '=', True)]
+        if selected_city:
+            featured_domain.append(('city', '=', selected_city))
+        featured_properties = Property.search(featured_domain)
+
         # Define a reusable color palette
         palette = ["#059669", "#dc2626", "#7c3aed", "#ea580c", "#2563eb", "#d97706", "#0891b2", "#9333ea"]
         category_colors = {}
@@ -88,6 +94,7 @@ class RealEstateController(http.Controller):
             'category_colors': json_scriptsafe.dumps(category_colors),
             'city_list': city_list,
             'selected_city': selected_city,
+            'featured_properties': featured_properties,
 
         })
 

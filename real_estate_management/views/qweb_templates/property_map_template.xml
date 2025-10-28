@@ -83,6 +83,93 @@
                         </div>
                     </section>
 
+                    <!-- FEATURED PROPERTIES -->
+                    <t t-if="selected_city">
+                        <section id="featured-properties" class="featured-section">
+                            <div class="container-fluid">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-lg-10">
+                                        <div class="section-header text-center mb-5">
+                                            <h2 class="section-title">
+                                                <span class="title-accent">✨</span>
+                                                Featured Properties
+                                                <t t-if="selected_city">
+                                                    in
+                                                    <span class="city-highlight">
+                                                        <t t-esc="selected_city"/>
+                                                    </span>
+                                                </t>
+                                                <span class="title-accent">🏡</span>
+                                            </h2>
+                                            <p class="section-subtitle">Discover our handpicked premium properties with
+                                                exceptional value
+                                            </p>
+                                        </div>
+
+                                        <div class="row g-4">
+                                            <t t-foreach="featured_properties" t-as="fp">
+                                                <div class="col-12 col-md-6 col-lg-4">
+                                                    <div class="property-card h-100">
+                                                        <a t-att-href="'/property/%d' % fp.id" class="card-link">
+                                                            <!-- Image Container -->
+                                                            <div class="image-container">
+                                                                <img t-if="fp.image"
+                                                                     t-att-src="'data:image/png;base64,%s' % fp.image.decode('utf-8')"
+                                                                     t-att-alt="fp.name"
+                                                                     class="property-image"/>
+                                                                <div class="image-overlay d-flex align-items-center justify-content-center">
+                                                                    <div class="overlay-content">
+                                                                        <span class="view-details">View Details</span>
+                                                                        <i class="fas fa-arrow-right ms-2"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="price-badge">
+                                                                    ₹
+                                                                    <t t-esc="'{:,}'.format(int(fp.price or 0))"/>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Content Container -->
+                                                            <div class="card-content">
+                                                                <h3 class="property-name">
+                                                                    <t t-esc="fp.name"/>
+                                                                </h3>
+                                                                <div class="property-location d-flex align-items-center mb-3">
+                                                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                                                    <span>
+                                                                        <t t-esc="fp.city"/>
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="property-features d-flex flex-wrap gap-2 mb-3">
+                                                                    <div class="feature d-flex align-items-center"
+                                                                         t-if="fp.plot_area">
+                                                                        <i class="fas fa-expand-arrows-alt me-1"></i>
+                                                                        <span>
+                                                                            <t t-esc="int(fp.plot_area)"/>
+                                                                            sq.ft
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="feature d-flex align-items-center"
+                                                                         t-if="fp.category_id">
+                                                                        <i class="fas fa-home me-1"></i>
+                                                                        <span>
+                                                                            <t t-esc="fp.category_id.name"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </t>
 
                     <!-- VIDEO IFRAME SECTION -->
                     <!--                    <section id="video-iframe" class="row">-->
