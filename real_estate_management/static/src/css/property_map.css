@@ -589,6 +589,91 @@ Featured Properties Section
   transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.15);
 }
 
+
+
+
+#investment-overview {
+            background: linear-gradient(135deg, #f8fafc, #eef2ff);
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 60px 0;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* ✨ Heading Styles */
+        #investment-overview h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #4338ca;
+            letter-spacing: 0.5px;
+        }
+
+        #investment-overview .highlight-city {
+            color: #059669;
+            background: linear-gradient(90deg, #34d399, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 8px;
+            animation: pulseCity 2s infinite ease-in-out;
+        }
+
+        #investment-overview p.text-muted {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        /* 💎 Info Boxes */
+        #investment-overview .info-box {
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(0);
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        #investment-overview .info-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* 🎨 Gradient Backgrounds for Each Card */
+        .info-box-green { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
+        .info-box-blue { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+        .info-box-yellow { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+        .info-box-red { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+
+        /* 🌀 Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseCity {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 📱 Responsive */
+        @media (max-width: 768px) {
+            #investment-overview h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+
+
+
+
+
+
 /* =========================
    ANIMATIONS
    ========================= */

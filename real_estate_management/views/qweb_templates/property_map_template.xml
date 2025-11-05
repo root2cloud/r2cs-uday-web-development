@@ -169,7 +169,89 @@
                                 </div>
                             </div>
                         </section>
+
                     </t>
+
+
+                    <section id="investment-overview" class="mt-5">
+                        <div class="container text-center">
+                            <t t-if="selected_city">
+                                <div class="mb-5">
+                                    <h2>
+                                        🌇 Why Should You Invest in
+                                        <span class="highlight-city">
+                                            <t t-esc="selected_city"/>
+                                        </span>
+                                        ?
+                                    </h2>
+                                    <p class="text-muted">Discover expert insights backed by growth, connectivity, and
+                                        trust.
+                                    </p>
+                                </div>
+
+                                <div class="row g-4">
+                                    <!-- Investment Reasons -->
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="info-box info-box-green">
+                                            <h5 class="fw-bold text-success mb-2">💼 Investment Reasons</h5>
+                                            <p class="text-dark" style="font-size:15px; line-height:1.6;">
+                                                <t t-esc="ai_investment_reasons"/>
+                                                <t t-raw="city_investment_info.get('ai_investment_reasons')"/>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Growth Potential -->
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="info-box info-box-blue">
+                                            <h5 class="fw-bold text-primary mb-2">🚀 Growth Potential</h5>
+                                            <p class="text-dark" style="font-size:15px; line-height:1.6;">
+                                                <t t-esc="ai_growth_potential"/>
+                                                <t t-raw="city_investment_info.get('ai_growth_potential')"/>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Infrastructure -->
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="info-box info-box-yellow">
+                                            <h5 class="fw-bold text-warning mb-2">🏗️ Infrastructure</h5>
+                                            <p class="text-dark" style="font-size:15px; line-height:1.6;">
+                                                <t t-esc="ai_infrastructure"/>
+                                                <t t-raw="city_investment_info.get('ai_infrastructure')"/>
+
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Market Trends -->
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="info-box info-box-red">
+                                            <h5 class="fw-bold text-danger mb-2">📊 Market Trends</h5>
+                                            <p class="text-dark" style="font-size:15px; line-height:1.6;">
+                                                <t t-esc="ai_market_trends"/>
+                                                <t t-raw="city_investment_info.get('ai_market_trends')"/>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-else="">
+                                <div class="p-5"
+                                     style="background:linear-gradient(135deg,#eef2ff,#f9fafb); border-radius:12px;">
+                                    <h3 class="fw-semibold text-secondary">🏙️ Select a City to Discover Smart Investment
+                                        Insights!
+                                    </h3>
+                                    <p class="text-muted">Choose a city from the dropdown to see AI-generated real
+                                        estate highlights.
+                                    </p>
+                                </div>
+                            </t>
+                        </div>
+                    </section>
+
 
                     <!-- VIDEO IFRAME SECTION -->
                     <!--                    <section id="video-iframe" class="row">-->
@@ -197,6 +279,7 @@
                 <script defer="defer" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"/>
                 <script defer="defer" src="/real_estate_management/static/src/js/property_map.js"/>
             </section>
+
 
         </t>
     </template>
