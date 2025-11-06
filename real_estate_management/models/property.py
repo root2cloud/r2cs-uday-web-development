@@ -300,6 +300,8 @@ class Property(models.Model):
             "Avoid lists — write naturally in full sentences with a realistic tone suitable for a luxury real estate website."
         )
 
+
+
         headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
         payload = {
             'model': 'gpt-4o-mini',
