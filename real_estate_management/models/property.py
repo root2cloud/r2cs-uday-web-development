@@ -105,6 +105,15 @@ class Property(models.Model):
     ai_content_generated = fields.Boolean(default=False)
     ai_generation_date = fields.Datetime()
 
+    # ==================== CITY INVESTMENT FIELDS ====================
+    city_investment_reasons = fields.Html(string='City Investment Reasons', readonly=True)
+    city_growth_potential = fields.Html(string='City Growth Potential', readonly=True)
+    city_infrastructure = fields.Html(string='City Infrastructure', readonly=True)
+    city_market_trends = fields.Html(string='City Market Trends', readonly=True)
+    city_investment_generated = fields.Boolean(default=False)
+    city_investment_date = fields.Datetime()
+    last_city_processed = fields.Char(string='Last City Processed')
+
     # -------------------- COMPUTE METHODS --------------------
     @api.depends('price', 'plot_area')
     def _compute_price_per_sqft(self):
@@ -247,3 +256,130 @@ class Property(models.Model):
     def action_regenerate_ai_content(self):
         for rec in self:
             rec.generate_ai_content()
+
+    @api.model
+    def get_city_investment_info(self, city_name):
+        """
+        Get or generate AI investment information for a city
+        """
+        if not city_name:
+            return None
+
+        # Search if we already have this city's investment data in any property
+        existing = self.search([
+            ('last_city_processed', '=', city_name),
+            ('city_investment_generated', '=', True)
+        ], limit=1)
+
+        if existing:
+            return {
+                'city': city_name,
+                'ai_investment_reasons': existing.city_investment_reasons,
+                'ai_growth_potential': existing.city_growth_potential,
+                'ai_infrastructure': existing.city_infrastructure,
+                'ai_market_trends': existing.city_market_trends,
+                'ai_content_generated': True,
+            }
+
+        # Get API key
+        api_key = self.env['ir.config_parameter'].sudo().get_param('openai.api_key')
+        if not api_key:
+            _logger.error("OpenAI API key not configured")
+            return None
+
+        print(f"Generating AI investment content for city: {city_name}")
+
+        prompt = (
+            f"Generate factual real estate investment information for {city_name}, India. "
+            "Return a JSON object with the following keys (each value a bullet-point list, max 100 words): "
+            "'investment_reasons' (5 compelling reasons to invest in real estate here with facts), "
+            "'growth_potential' (4 growth indicators and future development plans), "
+            "'infrastructure' (4 key infrastructure developments and connectivity), "
+            "'market_trends' (4 current market trends with data or statistics). "
+            "Focus on factual data about economy, infrastructure, connectivity, IT hubs, schools, hospitals, and real growth metrics."
+        )
+
+        headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
+        payload = {
+            'model': 'gpt-4o-mini',
+            'messages': [
+                {'role': 'system',
+                 'content': 'You are a real estate investment analyst. Provide factual data about cities in India with focus on real estate investment potential.'},
+                {'role': 'user', 'content': prompt}
+            ],
+            'max_tokens': 600,
+            'temperature': 0.3
+        }
+
+        try:
+            res = requests.post(
+                'https://api.openai.com/v1/chat/completions',
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+            res.raise_for_status()
+            response_data = res.json()
+            response_text = response_data['choices'][0]['message']['content']
+
+            if response_text.startswith:
+                response_text = response_text.replace("```json", "").replace("```", "")
+
+            try:
+                js = json.loads(response_text)
+
+                def list_to_html(lst):
+                    if not isinstance(lst, list) or not lst:
+                        return str(lst) if lst else ''
+                    return '<ul>' + ''.join(f'<li>{item}</li>' for item in lst) + '</ul>'
+
+                investment_reasons = list_to_html(js.get('investment_reasons', ''))
+                growth_potential = list_to_html(js.get('growth_potential', ''))
+                infrastructure = list_to_html(js.get('infrastructure', ''))
+                market_trends = list_to_html(js.get('market_trends', ''))
+
+                # Store in a dummy property record to cache the data
+                city_cache = self.search([('last_city_processed', '=', city_name)], limit=1)
+                if not city_cache:
+                    # Create a dummy record just to store city data
+                    city_cache = self.create({
+                        'name': f'City Data - {city_name}',
+                        'city': city_name,
+                        'city_investment_reasons': investment_reasons,
+                        'city_growth_potential': growth_potential,
+                        'city_infrastructure': infrastructure,
+                        'city_market_trends': market_trends,
+                        'city_investment_generated': True,
+                        'city_investment_date': fields.Datetime.now(),
+                        'last_city_processed': city_name,
+                        'is_published': False,
+                    })
+                else:
+                    city_cache.write({
+                        'city_investment_reasons': investment_reasons,
+                        'city_growth_potential': growth_potential,
+                        'city_infrastructure': infrastructure,
+                        'city_market_trends': market_trends,
+                        'city_investment_generated': True,
+                        'city_investment_date': fields.Datetime.now(),
+                        'last_city_processed': city_name,
+                    })
+
+                print(f"AI city investment content generated and stored for {city_name}")
+
+                return {
+                    'city': city_name,
+                    'ai_investment_reasons': investment_reasons,
+                    'ai_growth_potential': growth_potential,
+                    'ai_infrastructure': infrastructure,
+                    'ai_market_trends': market_trends,
+                    'ai_content_generated': True,
+                }
+
+            except Exception as e:
+                print(f"JSON parse error for city: {e}")
+                return None
+
+        except Exception as e:
+            print(f"AI generation failed for city {city_name}: {e}")
+            return None

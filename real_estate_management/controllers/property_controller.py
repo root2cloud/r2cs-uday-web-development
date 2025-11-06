@@ -39,6 +39,11 @@ class RealEstateController(http.Controller):
             featured_domain.append(('city', '=', selected_city))
         featured_properties = Property.search(featured_domain)
 
+        # Get city investment info
+        city_investment_info = None
+        if selected_city:
+            city_investment_info = Property.get_city_investment_info(selected_city)
+
         # Define a reusable color palette
         palette = ["#059669", "#dc2626", "#7c3aed", "#ea580c", "#2563eb", "#d97706", "#0891b2", "#9333ea"]
         category_colors = {}
@@ -95,6 +100,7 @@ class RealEstateController(http.Controller):
             'city_list': city_list,
             'selected_city': selected_city,
             'featured_properties': featured_properties,
+            'city_investment_info': city_investment_info,
 
         })
 
