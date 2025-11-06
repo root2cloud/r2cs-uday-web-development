@@ -10,14 +10,20 @@
         # Security
         'security/ir.model.access.csv',
 
+        # data
+        'data/mail_property_rejection.xml',
+
         # Views
         'views/property_views.xml',
         'views/property_category_views.xml',
         'views/menu.xml',
+        'views/property_registration_views.xml',
 
         # Qweb Templates
         'views/qweb_templates/property_map_template.xml',
-        'views/qweb_templates/property_detail_page.xml'
+        'views/qweb_templates/property_detail_page.xml',
+        'views/qweb_templates/properties_menu_page.xml',
+        'views/qweb_templates/website_registration_template.xml',
 
     ],
     'assets': {

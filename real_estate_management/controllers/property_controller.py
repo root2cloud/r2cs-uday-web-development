@@ -62,9 +62,9 @@ class RealEstateController(http.Controller):
                 if prop.image:
                     # Create base64 data URL for the image
                     image_url = f"data:image/png;base64,{prop.image.decode('utf-8')}"
-                elif prop.image_ids:
+                elif prop.gallery_image_ids:
                     # Use first image from gallery if main image not available
-                    first_image = prop.image_ids[0]
+                    first_image = prop.gallery_image_ids[0]
                     if first_image.datas:
                         image_url = f"data:image/png;base64,{first_image.datas.decode('utf-8')}"
 
@@ -123,3 +123,89 @@ class RealEstateController(http.Controller):
             'property': prop,
 
         })
+
+    @http.route('/properties', type='http', auth='public', website=True)
+    def property_listing(self, **kwargs):
+        search = kwargs.get('search', '')
+        city = kwargs.get('city', '')
+        zip_code = kwargs.get('zip_code', '')
+
+        domain = [('is_published', '=', True)]
+        if search:
+            domain += ['|', '|',
+                       ('name', 'ilike', search),
+                       ('city', 'ilike', search),
+                       ('zip_code', 'ilike', search)]
+        if city:
+            domain.append(('city', 'ilike', city))
+        if zip_code:
+            domain.append(('zip_code', 'ilike', zip_code))
+
+        properties = request.env['property.property'].sudo().search(domain)
+
+        property_card_data = []
+        for prop in properties:
+            property_card_data.append({
+                'id': prop.id,
+                'name': prop.name,
+                'image_url': f"data:image/png;base64,{prop.image.decode('utf-8')}" if prop.image else '',
+                'category': prop.category_id.name or '',
+                'price': prop.price,
+                'plot_area': prop.plot_area,
+                'price_per_sqft': prop.price_per_sqft,
+                'city': prop.city,
+                'zip_code': prop.zip_code,
+            })
+
+        return request.render('real_estate_management.property_listing_template', {
+            'properties': property_card_data,
+            'search': search,
+            'city': city,
+            'zip_code': zip_code,
+        })
+
+    @http.route('/property/register', type='http', auth='public', website=True)
+    def show_registration_form(self, **kwargs):
+        return request.render('real_estate_management.property_registration_form')
+
+    @http.route('/property/submit', type='http', auth='public', website=True, csrf=False)
+    def submit_registration(self, **post):
+        """Handle property registration form submission"""
+        try:
+            upload_files = request.httprequest.files.getlist('images')
+            property_vals = {
+                'customer_name': post.get('customer_name'),
+                'phone_number': post.get('phone_number'),
+                'place': post.get('place'),
+                'category': post.get('category'),
+                'sq_yards': post.get('sq_yards'),
+                'price': post.get('price'),
+                'location': post.get('location'),
+                'city': post.get('city'),
+                'state': post.get('state'),
+                'status': 'submitted',
+            }
+
+            # Create property record
+            property_rec = request.env['property.registration'].sudo().create(property_vals)
+
+            # Save uploaded images (main + gallery)
+            for idx, file in enumerate(upload_files):
+                content = base64.b64encode(file.read())
+                if idx == 0:
+                    property_rec.image = content  # First image as main
+                else:
+                    request.env['ir.attachment'].sudo().create({
+                        'name': file.filename,
+                        'res_model': 'property.registration',
+                        'res_id': property_rec.id,
+                        'type': 'binary',
+                        'datas': content,
+                        'mimetype': file.content_type,
+                    })
+
+            return request.render('real_estate_management.property_submission_success')
+
+        except Exception as e:
+            _logger.exception("Error in property registration")
+            return request.render('real_estate_management.property_submission_error', {'error': str(e)})

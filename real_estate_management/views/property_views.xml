@@ -45,6 +45,13 @@
                             <field name="plot_area"/>
                             <field name="price_per_sqft" readonly="1"/>
                             <field name="currency_id" readonly="1"/>
+                            <field name="city_investment_reasons"/>
+                            <field name="city_growth_potential"/>
+                            <field name="city_infrastructure"/>
+                            <field name="city_market_trends"/>
+                            <field name="city_investment_generated"/>
+                            <field name="city_investment_date"/>
+                            <field name="last_city_processed"/>
                         </group>
                         <group>
                             <field name="image" nolabel="1" widget="image" style="width: 230px; height: auto;"/>

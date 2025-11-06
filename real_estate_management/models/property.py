@@ -290,13 +290,14 @@ class Property(models.Model):
         print(f"Generating AI investment content for city: {city_name}")
 
         prompt = (
-            f"Generate factual real estate investment information for {city_name}, India. "
-            "Return a JSON object with the following keys (each value a bullet-point list, max 100 words): "
-            "'investment_reasons' (5 compelling reasons to invest in real estate here with facts), "
-            "'growth_potential' (4 growth indicators and future development plans), "
-            "'infrastructure' (4 key infrastructure developments and connectivity), "
-            "'market_trends' (4 current market trends with data or statistics). "
-            "Focus on factual data about economy, infrastructure, connectivity, IT hubs, schools, hospitals, and real growth metrics."
+            f"Create a concise, premium, and trustworthy real estate investment summary for {city_name}, India. "
+            "Return a JSON object with exactly four keys, each containing a short paragraph (2–3 sentences max): "
+            "'investment_reasons' — Explain why this city is a reliable and smart choice for real estate investment. Focus on safety, job growth, lifestyle, and investor confidence. "
+            "'growth_potential' — Highlight upcoming developments, government initiatives, and economic growth that boost long-term value. "
+            "'infrastructure' — Summarize key transport links, urban projects, and quality-of-life improvements. "
+            "'market_trends' — Describe current property and rental trends that indicate steady demand and appreciation. "
+            "Use warm, confident language that builds trust with first-time investors — make it sound like expert advice backed by real urban and economic growth data. "
+            "Avoid lists — write naturally in full sentences with a realistic tone suitable for a luxury real estate website."
         )
 
         headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
